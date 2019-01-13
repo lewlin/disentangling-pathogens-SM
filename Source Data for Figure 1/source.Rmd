@@ -1,0 +1,343 @@
+---
+title: Source Data for Figure 1
+author: "Tommaso Biancalani and Jeff Gore"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+Clear environment and set working directories.
+
+```{r}
+rm(list=ls())
+wd1 <- './../exp1/'
+wd2 <- './../exp2/'
+```
+
+# Linear fit for lethalities $\delta$ in survival curves in Fig. 1-A and Fig. S1
+
+Load file lists of each experimental condition.
+
+```{r}
+paA = list.files(path=wd2, pattern="paA[[:alpha:]]")
+paB = list.files(path=wd2, pattern="paB[[:alpha:]]")
+paC = list.files(path=wd2, pattern="paC[[:alpha:]]")
+smA = list.files(path=wd2, pattern="smA[[:alpha:]]")
+smB = list.files(path=wd2, pattern="smB[[:alpha:]]")
+smC = list.files(path=wd2, pattern="smC[[:alpha:]]")
+seA = list.files(path=wd2, pattern="seA[[:alpha:]]")
+seB = list.files(path=wd2, pattern="seB[[:alpha:]]")
+seC = list.files(path=wd2, pattern="seC[[:alpha:]]")
+```
+
+Load data from CSV files.
+
+```{r}
+read_csv_list <- function(wd, csv_files) {
+  # Read list of CSV files and return list of corresponding dataframes
+  dfs <- list()
+  for (csv_file in csv_files) {
+    csv_file = paste(wd, csv_file, sep = "")
+    df <- read.csv(csv_file)
+    dfs <- c(dfs, list(df))
+  }
+  return(dfs)
+}
+
+PaA_dfs = read_csv_list(wd2, paA)
+PaB_dfs = read_csv_list(wd2, paB)
+PaC_dfs = read_csv_list(wd2, paC)
+
+SmA_dfs = read_csv_list(wd2, smA)
+SmB_dfs = read_csv_list(wd2, smB)
+SmC_dfs = read_csv_list(wd2, smC)
+
+SeA_dfs = read_csv_list(wd2, seA)
+SeB_dfs = read_csv_list(wd2, seB)
+SeC_dfs = read_csv_list(wd2, seC)
+```
+
+Normalize survival curves to get fraction of worms surviving on y-axis.
+
+```{r}
+normalize_survival_curves <- function (dfs) {
+  # Take list of survival curves and return normalized list of survival curves
+  
+  norm_dfs <- list()
+  for (df in dfs) {
+    n_worms = df[[1, 2]]
+    df[[2]] = df[[2]] / n_worms
+    norm_dfs <- c(norm_dfs, list(df))
+  }  
+  return(norm_dfs)
+}
+
+PaA_dfs = normalize_survival_curves(PaA_dfs)
+PaB_dfs = normalize_survival_curves(PaB_dfs)
+PaC_dfs = normalize_survival_curves(PaC_dfs)
+
+SmA_dfs = normalize_survival_curves(SmA_dfs)
+SmB_dfs = normalize_survival_curves(SmB_dfs)
+SmC_dfs = normalize_survival_curves(SmC_dfs)
+
+SeA_dfs = normalize_survival_curves(SeA_dfs)
+SeB_dfs = normalize_survival_curves(SeB_dfs)
+SeC_dfs = normalize_survival_curves(SeC_dfs)
+
+```
+
+Display mean survival curve to detect invasion time (vertical bar), which is used to determine the fitting region.
+
+```{r}
+display_mean_surv_curve <- function (dfs, title_text, num_pts) {
+  # Display mean surv. curve averaged iover list of dataframes `dfs`
+  # Set figure title to `title_text`
+  # Draw vertical line on plot to separate last `num_pts`
+  # Return `num_pts`
+  
+  ## Get mean survival curve
+  w_rows <- list()
+  for (df in dfs) {
+    w_rows <- as.double(c(w_rows, df[[2]]))
+  }
+  row_matrix <- matrix(w_rows, nrow = length(dfs), byrow = TRUE)
+  mean_sc <- colMeans(row_matrix)
+  
+  ## Plot
+  times <- dfs[[1]][[1]]
+  xlab <- 'Time (hr)'
+  ylab <- 'Fraction of worms surviving'
+  plot(times, mean_sc, log = 'y', type = 'b', main = title_text, xlab = xlab, ylab = ylab)
+  
+  ## Draw vertical line
+  threshold_time <- rev(times)[[num_pts]]
+  abline(v=threshold_time)
+  
+  return(num_pts)
+}
+```
+
+For *P. aeruginosa*:
+
+```{r}
+PaA_npts <- display_mean_surv_curve(PaA_dfs, 'Pa 48h', 3)
+PaB_npts <- display_mean_surv_curve(PaB_dfs, 'Pa 24h', 4)
+PaC_npts <- display_mean_surv_curve(PaC_dfs, 'Pa 4h', 4)
+```
+
+For *S. marcescens*:
+
+```{r}
+SmA_npts <- display_mean_surv_curve(SmA_dfs, 'Sm 48h', 3)
+SmB_npts <- display_mean_surv_curve(SmB_dfs, 'Sm 24h', 3)
+SmC_npts <- display_mean_surv_curve(SmC_dfs, 'Sm 4h', 3)
+```
+
+For *S. enterica*:
+
+```{r}
+SeA_npts <- display_mean_surv_curve(SeA_dfs, 'Se 48h', 3)
+SeB_npts <- display_mean_surv_curve(SeB_dfs, 'Se 24h', 3)
+SeC_npts <- display_mean_surv_curve(SeC_dfs, 'Se 4h', 3)
+```
+
+Fit lethality to each survival curve using a linear model. The fitting region is determined by the invasion times from the mean survival curves.
+
+```{r}
+find_models <- function (dfs, num_pts) {
+  # Take last `num_pts` from each df from `dfs, 
+  # Compute log of y and perfom linear fit.
+  # return fitted models
+  models <- list()
+  for (df in dfs) {
+    
+    ## Convert to semi-log
+    last_pts = tail(df, num_pts)
+    t <- last_pts[[1]]
+    w <- log(last_pts[[2]])
+    
+    ## Purge non-valid values
+    mask <- is.finite(w)
+    w <- w[mask]  
+    t <- t[mask]
+    
+    ## Linear fit
+    model <- lm(w ~ t)
+    models <- c(models, list(model))
+  }
+  return(models)
+}
+
+PaA_models = find_models(PaA_dfs, PaA_npts)
+PaB_models = find_models(PaB_dfs, PaB_npts)
+PaC_models = find_models(PaC_dfs, PaC_npts)
+
+SmA_models = find_models(SmA_dfs, SmA_npts)
+SmB_models = find_models(SmB_dfs, SmB_npts)
+SmC_models = find_models(SmC_dfs, SmC_npts)
+
+SeA_models = find_models(SeA_dfs, SeA_npts)
+SeB_models = find_models(SeB_dfs, SeB_npts)
+SeC_models = find_models(SeC_dfs, SeC_npts)
+```
+
+Display linear fits.
+
+```{r}
+display_surv_fit <- function (dfs, models, title_text) {
+  # Display overlayed surv. curves. from list of dataframes `dfs`
+  # Set figure title to `title_text`
+  # Overlay linear fit from `models`.
+  
+  ## Main plot
+  df <- dfs[[1]]
+  title <- title_text
+  xlab <- 'Time (hr)'
+  ylab <- 'Fraction of worms surviving'
+  t <- df[[1]]
+  w <- log(df[[2]])
+  options <- list(
+    t, w, col=1, type='p', main=title, xlab=xlab, ylab=ylab
+    )
+  do.call(plot, options)
+  
+  ## Overlay secondary plots
+  for (i in 2:length(dfs)) {
+    df <- dfs[[i]]
+      t <- df[[1]]
+    w <- log(df[[2]])
+    points(t, w, col=i, type='p')
+  }
+  
+  ## Overlay linear fit
+  for (i in 1:length(models)) {
+    model <- models[[i]]
+    t <- df[[1]]
+    w <- log(df[[2]])
+    col <- i
+    abline(model, col=i, lwd=.6, lt=2)
+  }
+}
+
+display_surv_fit(PaA_dfs, PaA_models, "Pa 48h")
+display_surv_fit(PaB_dfs, PaB_models, "Pa 24h")
+display_surv_fit(PaC_dfs, PaC_models, "Pa 4h")
+
+display_surv_fit(SmA_dfs, SmA_models, "Sm 48h")
+display_surv_fit(SmB_dfs, SmB_models, "Sm 24h")
+display_surv_fit(SmC_dfs, SmC_models, "Sm 4h")
+
+display_surv_fit(SeA_dfs, SeA_models, "Se 48h")
+display_surv_fit(SeB_dfs, SeB_models, "Se 24h")
+display_surv_fit(SeC_dfs, SeC_models, "Se 4h")
+```
+
+Compute mean lethalities and their standard errors.
+
+```{r}
+get_delta_w_err <- function (models) {
+  deltas <- list() 
+  for (model in models) {
+    delta <- model$coefficients[[2]]
+    deltas <- c(deltas, delta)
+  }
+  deltas <- unlist(deltas)  # cast to vector
+  delta <- -mean(deltas)
+  delta <- round(delta, digits = 3)
+  err <- sqrt(var(deltas)/length(deltas))
+  err <- round(err, digits = 3)
+  return (c(delta, err))
+}
+
+PaA_delta  <- get_delta_w_err(PaA_models)
+PaB_delta  <- get_delta_w_err(PaB_models)
+PaC_delta  <- get_delta_w_err(PaC_models)
+
+SmA_delta  <- get_delta_w_err(SmA_models)
+SmB_delta  <- get_delta_w_err(SmB_models)
+SmC_delta  <- get_delta_w_err(SmC_models)
+
+SeA_delta  <- get_delta_w_err(SeA_models)
+SeB_delta  <- get_delta_w_err(SeB_models)
+SeC_delta  <- get_delta_w_err(SeC_models)
+
+Pa_delta_df= data.frame(c("average lethality", "standard error"), PaA_delta, PaB_delta, PaC_delta, row.names = 1)
+colnames(Pa_delta_df) <- c("Pa 48 hr", "Pa 24 hr", "Pa 4 hr")
+Pa_delta_df
+
+Sm_delta_df= data.frame(c("average lethality", "standard error"), SmA_delta, SmB_delta, SmC_delta, row.names = 1)
+colnames(Sm_delta_df) <- c("Sm 48 hr", "Sm 24 hr", "Sm 4 hr")
+Sm_delta_df
+
+Se_delta_df= data.frame(c("average lethality", "standard error"), SeA_delta, SeB_delta, SeC_delta, row.names = 1)
+colnames(Se_delta_df) <- c("Se 48 hr", "Se 24 hr", "Se 4 hr")
+Se_delta_df
+```
+
+# Linear fit for lethalities $\delta$ in survival curves in Fig. 1-B and Fig. S2
+
+Find file list corresponding to technical replica
+
+```{r}
+pa_fls = list.files(path=wd1, pattern="paW[[:alnum:]]")
+sm_fls = list.files(path=wd1, pattern="smW[[:alnum:]]")
+se_fls = list.files(path=wd1, pattern="seW[[:alnum:]]")
+ph_fls = list.files(path=wd1, pattern="phW[[:alnum:]]")
+```
+
+Compute normalized survival curves from CSV files.
+
+```{r}
+pa_dfs = read_csv_list(wd1, pa_fls)
+pa_dfs = normalize_survival_curves(pa_dfs)
+
+sm_dfs = read_csv_list(wd1, sm_fls)
+sm_dfs = normalize_survival_curves(sm_dfs)
+
+se_dfs = read_csv_list(wd1, se_fls)
+se_dfs = normalize_survival_curves(se_dfs)
+
+ph_dfs = read_csv_list(wd1, ph_fls)
+ph_dfs = normalize_survival_curves(ph_dfs)
+```
+
+Display survival groups and determine threshold of exponential phase to be used for fitting.
+
+```{r}
+pa_npts <-  display_mean_surv_curve(pa_dfs, "Pa", 4)
+sm_npts <- display_mean_surv_curve(sm_dfs, "Sm", 5)
+se_npts <- display_mean_surv_curve(se_dfs, "Se", 4)
+ph_npts <- display_mean_surv_curve(ph_dfs, "Ph", 4)
+```
+
+Fit lethality with linear model using thresholds previously found.
+
+```{r}
+pa_models = find_models(pa_dfs, pa_npts)
+sm_models = find_models(sm_dfs, sm_npts)
+se_models = find_models(se_dfs, se_npts)
+ph_models = find_models(ph_dfs, ph_npts)
+```
+
+Check that fits are performed correctly.
+
+```{r}
+display_surv_fit(pa_dfs, pa_models, "Pa")
+display_surv_fit(sm_dfs, sm_models, "Sm")
+display_surv_fit(se_dfs, se_models, "Se")
+display_surv_fit(ph_dfs, ph_models, "Ph")
+```
+
+Compute average lethalities with s.e.m
+
+```{r}
+pa_delta  <- get_delta_w_err(pa_models)
+sm_delta  <- get_delta_w_err(sm_models)
+se_delta  <- get_delta_w_err(se_models)
+ph_delta  <- get_delta_w_err(ph_models)
+
+res <- data.frame(c("average lethality", "standard error"), pa_delta, sm_delta, se_delta, ph_delta, row.names = 1)
+colnames(res) <- c("Pa", "Sm", "Se", "Ph")
+res
+
+```
