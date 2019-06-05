@@ -1,17 +1,17 @@
 ---
-title: Statistical analysis for *Experimental host-pathogen system reveals fundamental attributes of virulence*
+title: Statistical analysis for *Disentangling bacterial invasiveness from lethality in an experimental host-pathogen system*
 author: "Tommaso Biancalani and Jeff Gore"
 output:
   pdf_document: default
   html_notebook: default
 ---
 
-Clear environment and set working directories.
+Clear environment and set working directories (set your own path).
 
 ```{r}
 rm(list=ls())
-wd1 <- './exp1/'
-wd2 <- './exp2/'
+wd1 <- '/Users/tbiancal/git/disentangling-pathogens-SM/exp1/'
+wd2 <- '/Users/tbiancal/git/disentangling-pathogens-SM/exp2/'
 ```
 
 # Linear fit for lethalities $\delta$ in survival curves in Fig. 1-A and Fig. S1

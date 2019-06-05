@@ -1,0 +1,2245 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Statistical analysis for Disentangling bacterial invasiveness from lethality in an experimental host-pathogen system},
+            pdfauthor={Tommaso Biancalani and Jeff Gore},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Statistical analysis for \emph{Disentangling bacterial invasiveness from
+lethality in an experimental host-pathogen system}}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Tommaso Biancalani and Jeff Gore}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+Clear environment and set working directories (set your own path).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(}\DataTypeTok{list=}\KeywordTok{ls}\NormalTok{())}
+\NormalTok{wd1 <-}\StringTok{ '/Users/tbiancal/git/disentangling-pathogens-SM/exp1/'}
+\NormalTok{wd2 <-}\StringTok{ '/Users/tbiancal/git/disentangling-pathogens-SM/exp2/'}
+\end{Highlighting}
+\end{Shaded}
+
+\section{\texorpdfstring{Linear fit for lethalities \(\delta\) in
+survival curves in Fig. 1-A and Fig.
+S1}{Linear fit for lethalities \textbackslash{}delta in survival curves in Fig. 1-A and Fig. S1}}\label{linear-fit-for-lethalities-delta-in-survival-curves-in-fig.-1-a-and-fig.-s1}
+
+Load file lists of each experimental condition.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{paA =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd2, }\DataTypeTok{pattern=}\StringTok{"paA[[:alpha:]]"}\NormalTok{)}
+\NormalTok{paB =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd2, }\DataTypeTok{pattern=}\StringTok{"paB[[:alpha:]]"}\NormalTok{)}
+\NormalTok{paC =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd2, }\DataTypeTok{pattern=}\StringTok{"paC[[:alpha:]]"}\NormalTok{)}
+\NormalTok{smA =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd2, }\DataTypeTok{pattern=}\StringTok{"smA[[:alpha:]]"}\NormalTok{)}
+\NormalTok{smB =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd2, }\DataTypeTok{pattern=}\StringTok{"smB[[:alpha:]]"}\NormalTok{)}
+\NormalTok{smC =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd2, }\DataTypeTok{pattern=}\StringTok{"smC[[:alpha:]]"}\NormalTok{)}
+\NormalTok{seA =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd2, }\DataTypeTok{pattern=}\StringTok{"seA[[:alpha:]]"}\NormalTok{)}
+\NormalTok{seB =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd2, }\DataTypeTok{pattern=}\StringTok{"seB[[:alpha:]]"}\NormalTok{)}
+\NormalTok{seC =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd2, }\DataTypeTok{pattern=}\StringTok{"seC[[:alpha:]]"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Load data from CSV files.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{read_csv_list <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(wd, csv_files) \{}
+  \CommentTok{# Read list of CSV files and return list of corresponding dataframes}
+\NormalTok{  dfs <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (csv_file }\ControlFlowTok{in}\NormalTok{ csv_files) \{}
+\NormalTok{    csv_file =}\StringTok{ }\KeywordTok{paste}\NormalTok{(wd, csv_file, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{)}
+\NormalTok{    df <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(csv_file)}
+\NormalTok{    dfs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(dfs, }\KeywordTok{list}\NormalTok{(df))}
+\NormalTok{  \}}
+  \KeywordTok{return}\NormalTok{(dfs)}
+\NormalTok{\}}
+
+\NormalTok{PaA_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd2, paA)}
+\NormalTok{PaB_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd2, paB)}
+\NormalTok{PaC_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd2, paC)}
+
+\NormalTok{SmA_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd2, smA)}
+\NormalTok{SmB_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd2, smB)}
+\NormalTok{SmC_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd2, smC)}
+
+\NormalTok{SeA_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd2, seA)}
+\NormalTok{SeB_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd2, seB)}
+\NormalTok{SeC_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd2, seC)}
+\end{Highlighting}
+\end{Shaded}
+
+Normalize survival curves to get fraction of worms surviving on y-axis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{normalize_survival_curves <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (dfs) \{}
+  \CommentTok{# Take list of survival curves and return normalized list of survival curves}
+  
+\NormalTok{  norm_dfs <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (df }\ControlFlowTok{in}\NormalTok{ dfs) \{}
+\NormalTok{    n_worms =}\StringTok{ }\NormalTok{df[[}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{]]}
+\NormalTok{    df[[}\DecValTok{2}\NormalTok{]] =}\StringTok{ }\NormalTok{df[[}\DecValTok{2}\NormalTok{]] }\OperatorTok{/}\StringTok{ }\NormalTok{n_worms}
+\NormalTok{    norm_dfs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(norm_dfs, }\KeywordTok{list}\NormalTok{(df))}
+\NormalTok{  \}  }
+  \KeywordTok{return}\NormalTok{(norm_dfs)}
+\NormalTok{\}}
+
+\NormalTok{PaA_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(PaA_dfs)}
+\NormalTok{PaB_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(PaB_dfs)}
+\NormalTok{PaC_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(PaC_dfs)}
+
+\NormalTok{SmA_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(SmA_dfs)}
+\NormalTok{SmB_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(SmB_dfs)}
+\NormalTok{SmC_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(SmC_dfs)}
+
+\NormalTok{SeA_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(SeA_dfs)}
+\NormalTok{SeB_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(SeB_dfs)}
+\NormalTok{SeC_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(SeC_dfs)}
+\end{Highlighting}
+\end{Shaded}
+
+Display mean survival curve to detect invasion time (vertical bar),
+which is used to determine the fitting region.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{display_mean_surv_curve <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (dfs, title_text, num_pts) \{}
+  \CommentTok{# Display mean surv. curve averaged iover list of dataframes `dfs`}
+  \CommentTok{# Set figure title to `title_text`}
+  \CommentTok{# Draw vertical line on plot to separate last `num_pts`}
+  \CommentTok{# Return `num_pts`}
+  
+\NormalTok{  ## Get mean survival curve}
+\NormalTok{  w_rows <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (df }\ControlFlowTok{in}\NormalTok{ dfs) \{}
+\NormalTok{    w_rows <-}\StringTok{ }\KeywordTok{as.double}\NormalTok{(}\KeywordTok{c}\NormalTok{(w_rows, df[[}\DecValTok{2}\NormalTok{]]))}
+\NormalTok{  \}}
+\NormalTok{  row_matrix <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(w_rows, }\DataTypeTok{nrow =} \KeywordTok{length}\NormalTok{(dfs), }\DataTypeTok{byrow =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{  mean_sc <-}\StringTok{ }\KeywordTok{colMeans}\NormalTok{(row_matrix)}
+  
+\NormalTok{  ## Plot}
+\NormalTok{  times <-}\StringTok{ }\NormalTok{dfs[[}\DecValTok{1}\NormalTok{]][[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  xlab <-}\StringTok{ 'Time (hr)'}
+\NormalTok{  ylab <-}\StringTok{ 'Fraction of worms surviving'}
+  \KeywordTok{plot}\NormalTok{(times, mean_sc, }\DataTypeTok{log =} \StringTok{'y'}\NormalTok{, }\DataTypeTok{type =} \StringTok{'b'}\NormalTok{, }\DataTypeTok{main =}\NormalTok{ title_text, }\DataTypeTok{xlab =}\NormalTok{ xlab, }\DataTypeTok{ylab =}\NormalTok{ ylab)}
+  
+\NormalTok{  ## Draw vertical line}
+\NormalTok{  threshold_time <-}\StringTok{ }\KeywordTok{rev}\NormalTok{(times)[[num_pts]]}
+  \KeywordTok{abline}\NormalTok{(}\DataTypeTok{v=}\NormalTok{threshold_time)}
+  
+  \KeywordTok{return}\NormalTok{(num_pts)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+For \emph{P. aeruginosa}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{PaA_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(PaA_dfs, }\StringTok{'Pa 48h'}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{PaB_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(PaB_dfs, }\StringTok{'Pa 24h'}\NormalTok{, }\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-6-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{PaC_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(PaC_dfs, }\StringTok{'Pa 4h'}\NormalTok{, }\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-6-3.pdf}
+
+For \emph{S. marcescens}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SmA_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(SmA_dfs, }\StringTok{'Sm 48h'}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SmB_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(SmB_dfs, }\StringTok{'Sm 24h'}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-7-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SmC_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(SmC_dfs, }\StringTok{'Sm 4h'}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-7-3.pdf}
+
+For \emph{S. enterica}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SeA_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(SeA_dfs, }\StringTok{'Se 48h'}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SeB_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(SeB_dfs, }\StringTok{'Se 24h'}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-8-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{SeC_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(SeC_dfs, }\StringTok{'Se 4h'}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-8-3.pdf}
+
+Fit lethality to each survival curve using a linear model. The fitting
+region is determined by the invasion times from the mean survival
+curves.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{find_models <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (dfs, num_pts) \{}
+  \CommentTok{# Take last `num_pts` from each df from `dfs, }
+  \CommentTok{# Compute log of y and perfom linear fit.}
+  \CommentTok{# return fitted models}
+\NormalTok{  models <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (df }\ControlFlowTok{in}\NormalTok{ dfs) \{}
+    
+\NormalTok{    ## Convert to semi-log}
+\NormalTok{    last_pts =}\StringTok{ }\KeywordTok{tail}\NormalTok{(df, num_pts)}
+\NormalTok{    t <-}\StringTok{ }\NormalTok{last_pts[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{    w <-}\StringTok{ }\KeywordTok{log}\NormalTok{(last_pts[[}\DecValTok{2}\NormalTok{]])}
+    
+\NormalTok{    ## Purge non-valid values}
+\NormalTok{    mask <-}\StringTok{ }\KeywordTok{is.finite}\NormalTok{(w)}
+\NormalTok{    w <-}\StringTok{ }\NormalTok{w[mask]  }
+\NormalTok{    t <-}\StringTok{ }\NormalTok{t[mask]}
+    
+\NormalTok{    ## Linear fit}
+\NormalTok{    model <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(w }\OperatorTok{~}\StringTok{ }\NormalTok{t)}
+\NormalTok{    models <-}\StringTok{ }\KeywordTok{c}\NormalTok{(models, }\KeywordTok{list}\NormalTok{(model))}
+\NormalTok{  \}}
+  \KeywordTok{return}\NormalTok{(models)}
+\NormalTok{\}}
+
+\NormalTok{PaA_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(PaA_dfs, PaA_npts)}
+\NormalTok{PaB_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(PaB_dfs, PaB_npts)}
+\NormalTok{PaC_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(PaC_dfs, PaC_npts)}
+
+\NormalTok{SmA_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(SmA_dfs, SmA_npts)}
+\NormalTok{SmB_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(SmB_dfs, SmB_npts)}
+\NormalTok{SmC_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(SmC_dfs, SmC_npts)}
+
+\NormalTok{SeA_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(SeA_dfs, SeA_npts)}
+\NormalTok{SeB_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(SeB_dfs, SeB_npts)}
+\NormalTok{SeC_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(SeC_dfs, SeC_npts)}
+\end{Highlighting}
+\end{Shaded}
+
+Display linear fits.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{display_surv_fit <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (dfs, models, title_text) \{}
+  \CommentTok{# Display overlayed surv. curves. from list of dataframes `dfs`}
+  \CommentTok{# Set figure title to `title_text`}
+  \CommentTok{# Overlay linear fit from `models`.}
+  
+\NormalTok{  ## Main plot}
+\NormalTok{  df <-}\StringTok{ }\NormalTok{dfs[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  title <-}\StringTok{ }\NormalTok{title_text}
+\NormalTok{  xlab <-}\StringTok{ 'Time (hr)'}
+\NormalTok{  ylab <-}\StringTok{ 'Fraction of worms surviving'}
+\NormalTok{  t <-}\StringTok{ }\NormalTok{df[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  w <-}\StringTok{ }\KeywordTok{log}\NormalTok{(df[[}\DecValTok{2}\NormalTok{]])}
+\NormalTok{  options <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}
+\NormalTok{    t, w, }\DataTypeTok{col=}\DecValTok{1}\NormalTok{, }\DataTypeTok{type=}\StringTok{'p'}\NormalTok{, }\DataTypeTok{main=}\NormalTok{title, }\DataTypeTok{xlab=}\NormalTok{xlab, }\DataTypeTok{ylab=}\NormalTok{ylab}
+\NormalTok{    )}
+  \KeywordTok{do.call}\NormalTok{(plot, options)}
+  
+\NormalTok{  ## Overlay secondary plots}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\OperatorTok{:}\KeywordTok{length}\NormalTok{(dfs)) \{}
+\NormalTok{    df <-}\StringTok{ }\NormalTok{dfs[[i]]}
+\NormalTok{      t <-}\StringTok{ }\NormalTok{df[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{    w <-}\StringTok{ }\KeywordTok{log}\NormalTok{(df[[}\DecValTok{2}\NormalTok{]])}
+    \KeywordTok{points}\NormalTok{(t, w, }\DataTypeTok{col=}\NormalTok{i, }\DataTypeTok{type=}\StringTok{'p'}\NormalTok{)}
+\NormalTok{  \}}
+  
+\NormalTok{  ## Overlay linear fit}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(models)) \{}
+\NormalTok{    model <-}\StringTok{ }\NormalTok{models[[i]]}
+\NormalTok{    t <-}\StringTok{ }\NormalTok{df[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{    w <-}\StringTok{ }\KeywordTok{log}\NormalTok{(df[[}\DecValTok{2}\NormalTok{]])}
+\NormalTok{    col <-}\StringTok{ }\NormalTok{i}
+    \KeywordTok{abline}\NormalTok{(model, }\DataTypeTok{col=}\NormalTok{i, }\DataTypeTok{lwd=}\NormalTok{.}\DecValTok{6}\NormalTok{, }\DataTypeTok{lt=}\DecValTok{2}\NormalTok{)}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\KeywordTok{display_surv_fit}\NormalTok{(PaA_dfs, PaA_models, }\StringTok{"Pa 48h"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(PaB_dfs, PaB_models, }\StringTok{"Pa 24h"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-10-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(PaC_dfs, PaC_models, }\StringTok{"Pa 4h"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-10-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(SmA_dfs, SmA_models, }\StringTok{"Sm 48h"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-10-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(SmB_dfs, SmB_models, }\StringTok{"Sm 24h"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-10-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(SmC_dfs, SmC_models, }\StringTok{"Sm 4h"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-10-6.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(SeA_dfs, SeA_models, }\StringTok{"Se 48h"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-10-7.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(SeB_dfs, SeB_models, }\StringTok{"Se 24h"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-10-8.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(SeC_dfs, SeC_models, }\StringTok{"Se 4h"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-10-9.pdf}
+
+Compute mean lethalities and their standard errors.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{get_delta_w_err <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (models) \{}
+\NormalTok{  deltas <-}\StringTok{ }\KeywordTok{list}\NormalTok{() }
+  \ControlFlowTok{for}\NormalTok{ (model }\ControlFlowTok{in}\NormalTok{ models) \{}
+\NormalTok{    delta <-}\StringTok{ }\NormalTok{model}\OperatorTok{$}\NormalTok{coefficients[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{    deltas <-}\StringTok{ }\KeywordTok{c}\NormalTok{(deltas, delta)}
+\NormalTok{  \}}
+\NormalTok{  deltas <-}\StringTok{ }\KeywordTok{unlist}\NormalTok{(deltas)  }\CommentTok{# cast to vector}
+\NormalTok{  delta <-}\StringTok{ }\OperatorTok{-}\KeywordTok{mean}\NormalTok{(deltas)}
+\NormalTok{  delta <-}\StringTok{ }\KeywordTok{round}\NormalTok{(delta, }\DataTypeTok{digits =} \DecValTok{3}\NormalTok{)}
+\NormalTok{  err <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{var}\NormalTok{(deltas)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(deltas))}
+\NormalTok{  err <-}\StringTok{ }\KeywordTok{round}\NormalTok{(err, }\DataTypeTok{digits =} \DecValTok{3}\NormalTok{)}
+  \KeywordTok{return}\NormalTok{ (}\KeywordTok{c}\NormalTok{(delta, err))}
+\NormalTok{\}}
+
+\NormalTok{PaA_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(PaA_models)}
+\NormalTok{PaB_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(PaB_models)}
+\NormalTok{PaC_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(PaC_models)}
+
+\NormalTok{SmA_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(SmA_models)}
+\NormalTok{SmB_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(SmB_models)}
+\NormalTok{SmC_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(SmC_models)}
+
+\NormalTok{SeA_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(SeA_models)}
+\NormalTok{SeB_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(SeB_models)}
+\NormalTok{SeC_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(SeC_models)}
+
+\NormalTok{Pa_delta_df=}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"average lethality"}\NormalTok{, }\StringTok{"standard error"}\NormalTok{), PaA_delta, PaB_delta, PaC_delta, }\DataTypeTok{row.names =} \DecValTok{1}\NormalTok{)}
+\KeywordTok{colnames}\NormalTok{(Pa_delta_df) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Pa 48 hr"}\NormalTok{, }\StringTok{"Pa 24 hr"}\NormalTok{, }\StringTok{"Pa 4 hr"}\NormalTok{)}
+\NormalTok{Pa_delta_df}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   Pa 48 hr Pa 24 hr Pa 4 hr
+## average lethality    0.057    0.053   0.052
+## standard error       0.009    0.003   0.006
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Sm_delta_df=}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"average lethality"}\NormalTok{, }\StringTok{"standard error"}\NormalTok{), SmA_delta, SmB_delta, SmC_delta, }\DataTypeTok{row.names =} \DecValTok{1}\NormalTok{)}
+\KeywordTok{colnames}\NormalTok{(Sm_delta_df) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Sm 48 hr"}\NormalTok{, }\StringTok{"Sm 24 hr"}\NormalTok{, }\StringTok{"Sm 4 hr"}\NormalTok{)}
+\NormalTok{Sm_delta_df}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   Sm 48 hr Sm 24 hr Sm 4 hr
+## average lethality    0.034    0.031   0.028
+## standard error       0.005    0.004   0.004
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Se_delta_df=}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"average lethality"}\NormalTok{, }\StringTok{"standard error"}\NormalTok{), SeA_delta, SeB_delta, SeC_delta, }\DataTypeTok{row.names =} \DecValTok{1}\NormalTok{)}
+\KeywordTok{colnames}\NormalTok{(Se_delta_df) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Se 48 hr"}\NormalTok{, }\StringTok{"Se 24 hr"}\NormalTok{, }\StringTok{"Se 4 hr"}\NormalTok{)}
+\NormalTok{Se_delta_df}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   Se 48 hr Se 24 hr Se 4 hr
+## average lethality    0.035    0.031   0.034
+## standard error       0.005    0.003   0.005
+\end{verbatim}
+
+\section{\texorpdfstring{Linear fit for lethalities \(\delta\) in
+survival curves in Fig. 1-B and Fig.
+S2}{Linear fit for lethalities \textbackslash{}delta in survival curves in Fig. 1-B and Fig. S2}}\label{linear-fit-for-lethalities-delta-in-survival-curves-in-fig.-1-b-and-fig.-s2}
+
+Find file list corresponding to technical replica
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pa_fls =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd1, }\DataTypeTok{pattern=}\StringTok{"paW[[:alnum:]]"}\NormalTok{)}
+\NormalTok{sm_fls =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd1, }\DataTypeTok{pattern=}\StringTok{"smW[[:alnum:]]"}\NormalTok{)}
+\NormalTok{se_fls =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd1, }\DataTypeTok{pattern=}\StringTok{"seW[[:alnum:]]"}\NormalTok{)}
+\NormalTok{ph_fls =}\StringTok{ }\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{path=}\NormalTok{wd1, }\DataTypeTok{pattern=}\StringTok{"phW[[:alnum:]]"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Compute normalized survival curves from CSV files.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pa_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd1, pa_fls)}
+\NormalTok{pa_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(pa_dfs)}
+
+\NormalTok{sm_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd1, sm_fls)}
+\NormalTok{sm_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(sm_dfs)}
+
+\NormalTok{se_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd1, se_fls)}
+\NormalTok{se_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(se_dfs)}
+
+\NormalTok{ph_dfs =}\StringTok{ }\KeywordTok{read_csv_list}\NormalTok{(wd1, ph_fls)}
+\NormalTok{ph_dfs =}\StringTok{ }\KeywordTok{normalize_survival_curves}\NormalTok{(ph_dfs)}
+\end{Highlighting}
+\end{Shaded}
+
+Display survival groups and determine threshold of exponential phase to
+be used for fitting.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pa_npts <-}\StringTok{  }\KeywordTok{display_mean_surv_curve}\NormalTok{(pa_dfs, }\StringTok{"Pa"}\NormalTok{, }\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sm_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(sm_dfs, }\StringTok{"Sm"}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-14-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{se_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(se_dfs, }\StringTok{"Se"}\NormalTok{, }\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-14-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ph_npts <-}\StringTok{ }\KeywordTok{display_mean_surv_curve}\NormalTok{(ph_dfs, }\StringTok{"Ph"}\NormalTok{, }\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-14-4.pdf}
+
+Fit lethality with linear model using thresholds previously found.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pa_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(pa_dfs, pa_npts)}
+\NormalTok{sm_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(sm_dfs, sm_npts)}
+\NormalTok{se_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(se_dfs, se_npts)}
+\NormalTok{ph_models =}\StringTok{ }\KeywordTok{find_models}\NormalTok{(ph_dfs, ph_npts)}
+\end{Highlighting}
+\end{Shaded}
+
+Check that fits are performed correctly.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(pa_dfs, pa_models, }\StringTok{"Pa"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(sm_dfs, sm_models, }\StringTok{"Sm"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-16-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(se_dfs, se_models, }\StringTok{"Se"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-16-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display_surv_fit}\NormalTok{(ph_dfs, ph_models, }\StringTok{"Ph"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-16-4.pdf}
+
+Compute average lethalities with s.e.m
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pa_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(pa_models)}
+\NormalTok{sm_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(sm_models)}
+\NormalTok{se_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(se_models)}
+\NormalTok{ph_delta  <-}\StringTok{ }\KeywordTok{get_delta_w_err}\NormalTok{(ph_models)}
+
+\NormalTok{res <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"average lethality"}\NormalTok{, }\StringTok{"standard error"}\NormalTok{), pa_delta, sm_delta, se_delta, ph_delta, }\DataTypeTok{row.names =} \DecValTok{1}\NormalTok{)}
+\KeywordTok{colnames}\NormalTok{(res) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Pa"}\NormalTok{, }\StringTok{"Sm"}\NormalTok{, }\StringTok{"Se"}\NormalTok{, }\StringTok{"Ph"}\NormalTok{)}
+\NormalTok{res}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                      Pa    Sm    Se    Ph
+## average lethality 0.058 0.022 0.033 0.024
+## standard error    0.004 0.002 0.006 0.002
+\end{verbatim}
+
+\section{\texorpdfstring{Non-linear fit of \emph{Pa} growth curves in
+Fig.
+4-C}{Non-linear fit of Pa growth curves in Fig. 4-C}}\label{non-linear-fit-of-pa-growth-curves-in-fig.-4-c}
+
+\subsection{\texorpdfstring{Fit model to mean \emph{Pa} growth curves in
+Fig.
+4-C}{Fit model to mean Pa growth curves in Fig. 4-C}}\label{fit-model-to-mean-pa-growth-curves-in-fig.-4-c}
+
+Load growth curves from CSV files
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{options <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}
+            \DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }
+            \DataTypeTok{col.names =}  \KeywordTok{c}\NormalTok{(}\StringTok{"times hr"}\NormalTok{,}\StringTok{"Cells replica 1"}\NormalTok{,}\StringTok{"Cells replica 2"}\NormalTok{,}\StringTok{"Cells replica 3"}\NormalTok{,}\StringTok{"Cells replica 4"}\NormalTok{)}
+\NormalTok{            )}
+
+\NormalTok{args <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{paste}\NormalTok{(wd2, }\StringTok{'paA_growth.csv'}\NormalTok{, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{), options)}
+\NormalTok{paA_growth <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(read.csv, args)}
+
+\NormalTok{args <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{paste}\NormalTok{(wd2, }\StringTok{'paB_growth.csv'}\NormalTok{, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{), options)}
+\NormalTok{paB_growth <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(read.csv, args)}
+
+\NormalTok{args <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{paste}\NormalTok{(wd2, }\StringTok{'paC_growth.csv'}\NormalTok{, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{), options)}
+\NormalTok{paC_growth <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(read.csv, args)}
+\end{Highlighting}
+\end{Shaded}
+
+Display data and mean curve of pathogen loads. Draw horizontal line to
+find carrying capacity.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{display_growth_data <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (dfs, title_text, K) \{}
+  \CommentTok{# Print growth data from `dfs` along with mean curve.}
+  \CommentTok{# Title figure `title_text`.}
+  \CommentTok{# Draw horizontal line with intercept `K`}
+  \CommentTok{# Return normalized mean curve as 2d list (times, vals).}
+  
+\NormalTok{  ## Get data as matrices}
+\NormalTok{  cells <-}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(dfs[, }\DecValTok{2}\OperatorTok{:}\DecValTok{5}\NormalTok{])}
+\NormalTok{  ts <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rep}\NormalTok{(dfs[[}\DecValTok{1}\NormalTok{]], }\DecValTok{4}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{4}\NormalTok{, }\DataTypeTok{byrow =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{  ts <-}\StringTok{ }\KeywordTok{t}\NormalTok{(ts)}
+
+\NormalTok{  ## Compute mean curve}
+\NormalTok{  mean_curve_cells <-}\StringTok{ }\KeywordTok{rowMeans}\NormalTok{(cells, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{) }
+\NormalTok{  mean_curve_ts <-}\StringTok{ }\NormalTok{ts[,}\DecValTok{1}\NormalTok{]}
+  
+\NormalTok{  ## Flatten data for plotting}
+\NormalTok{  ts <-}\StringTok{ }\KeywordTok{as.vector}\NormalTok{(ts)}
+\NormalTok{  cells <-}\StringTok{ }\KeywordTok{as.vector}\NormalTok{(cells)}
+  
+\NormalTok{  ## Plot raw data}
+  \KeywordTok{plot}\NormalTok{(ts, cells, }
+       \DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{120}\NormalTok{), }
+       \DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**}\DecValTok{2}\NormalTok{, }\DecValTok{10}\OperatorTok{**}\DecValTok{6}\NormalTok{), }
+       \DataTypeTok{log =} \StringTok{"y"}\NormalTok{, }
+       \DataTypeTok{main =}\NormalTok{ title_text,}
+       \DataTypeTok{xlab =} \StringTok{'Time (hr)'}\NormalTok{,}
+       \DataTypeTok{ylab =} \StringTok{'Pathogen load (cells)'}
+\NormalTok{       )}
+  
+\NormalTok{  ## Add mean curve to plot}
+  \KeywordTok{points}\NormalTok{(mean_curve_ts, mean_curve_cells, }\DataTypeTok{type =} \StringTok{'l'}\NormalTok{)}
+  
+\NormalTok{  ## Add carrying capacity line}
+  \KeywordTok{abline}\NormalTok{(}\DataTypeTok{h =}\NormalTok{ K, }\DataTypeTok{lt=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'red'}\NormalTok{)}
+  
+  \KeywordTok{return}\NormalTok{(}\KeywordTok{list}\NormalTok{(mean_curve_ts, mean_curve_cells }\OperatorTok{/}\StringTok{ }\NormalTok{K))}
+\NormalTok{\}}
+
+\NormalTok{KPa <-}\StringTok{ }\FloatTok{2.8} \OperatorTok{*}\StringTok{ }\DecValTok{10}\OperatorTok{**}\DecValTok{5}
+\NormalTok{paA_growth_norm <-}\StringTok{ }\KeywordTok{display_growth_data}\NormalTok{(paA_growth, }\StringTok{"Pa 48 hr"}\NormalTok{, KPa)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-19-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{paB_growth_norm <-}\StringTok{ }\KeywordTok{display_growth_data}\NormalTok{(paB_growth, }\StringTok{"Pa 24 hr"}\NormalTok{, KPa)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-19-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{paC_growth_norm <-}\StringTok{ }\KeywordTok{display_growth_data}\NormalTok{(paC_growth, }\StringTok{"Pa 4 hr"}\NormalTok{, KPa)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-19-3.pdf}
+
+Compute model solution for pathogen load
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{evaluate_growth_model <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (t, logr, logc) \{}
+  \CommentTok{# Return pathogen load at time t given growth rate rand colonization rate c.}
+  \CommentTok{# `t` can be a list of times.}
+  \CommentTok{# log transform r and c so that optimization problem is unconstrained.}
+  \KeywordTok{library}\NormalTok{(}\StringTok{"Brobdingnag"}\NormalTok{)  }\CommentTok{# Handles very large number}
+\NormalTok{  l <-}\StringTok{ }\KeywordTok{as.brob}\NormalTok{(}\KeywordTok{exp}\NormalTok{(logr) }\OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(logc))}
+  \CommentTok{# print(l)}
+\NormalTok{  num <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(l}\OperatorTok{*}\NormalTok{t) }\OperatorTok{-}\StringTok{ }\DecValTok{1}
+  \CommentTok{# print(num)}
+\NormalTok{  den <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(l}\OperatorTok{*}\NormalTok{t) }\OperatorTok{+}\StringTok{ }\KeywordTok{as.brob}\NormalTok{(}\KeywordTok{exp}\NormalTok{(logr)}\OperatorTok{/}\KeywordTok{exp}\NormalTok{(logc))}
+  \CommentTok{# print(den)}
+\NormalTok{  ans <-}\StringTok{ }\KeywordTok{as.double}\NormalTok{(num }\OperatorTok{/}\StringTok{ }\NormalTok{den)}
+  \KeywordTok{return}\NormalTok{ (ans)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Plot growth data and model solution for some parameter values. These
+parameters will be used as starting parameters values for our fitting
+procedure.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"pracma"}\NormalTok{)}
+\NormalTok{ts <-}\StringTok{ }\KeywordTok{linspace}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{120}\NormalTok{, }\DataTypeTok{n=}\DecValTok{100}\NormalTok{)}
+\NormalTok{paA_model_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, }\KeywordTok{log}\NormalTok{(}\FloatTok{0.08}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.0038210}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'Brobdingnag'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     max, min, prod, range, sum
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{paB_model_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, }\KeywordTok{log}\NormalTok{(}\FloatTok{0.08}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{7e-04}\NormalTok{))}
+\NormalTok{paC_model_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, }\KeywordTok{log}\NormalTok{(}\FloatTok{0.08}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.00019}\NormalTok{))}
+
+\KeywordTok{plot}\NormalTok{(ts, paA_model_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{col=}\DecValTok{2}\NormalTok{, }
+     \DataTypeTok{main=}\StringTok{'Pa growth (model and data)'}\NormalTok{, }
+     \DataTypeTok{log=}\StringTok{'y'}\NormalTok{, }\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{), }
+     \DataTypeTok{ylab=}\StringTok{"Pathogen load (fraction)"}\NormalTok{,}
+     \DataTypeTok{xlab=}\StringTok{"Time (hr)"}\NormalTok{)}
+
+\KeywordTok{points}\NormalTok{(ts, paB_model_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{col=}\DecValTok{3}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(ts, paC_model_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{col=}\DecValTok{4}\NormalTok{)}
+
+\KeywordTok{points}\NormalTok{(paA_growth_norm[[}\DecValTok{1}\NormalTok{]], paA_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{col=}\DecValTok{2}\NormalTok{, }\DataTypeTok{type =} \StringTok{'p'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(paB_growth_norm[[}\DecValTok{1}\NormalTok{]], paB_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{col=}\DecValTok{3}\NormalTok{, }\DataTypeTok{type =} \StringTok{'p'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(paC_growth_norm[[}\DecValTok{1}\NormalTok{]], paC_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{col=}\DecValTok{4}\NormalTok{, }\DataTypeTok{type =} \StringTok{'p'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+Compute sum-of-squares error between model solution and a single data
+set.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{get_growth_model_error <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (logr, logc, data) \{}
+  \CommentTok{# Return sum-of-squares error between data growth points }
+  \CommentTok{# and model initialized with parameters r and c.}
+  \CommentTok{# Logs of r and c are passed to constraint the parameters}
+  \CommentTok{# to positive values.}
+  
+\NormalTok{  ## Get times and log of data}
+\NormalTok{  ts <-}\StringTok{ }\NormalTok{data[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  data_dyn <-}\StringTok{ }\KeywordTok{log}\NormalTok{(data[[}\DecValTok{2}\NormalTok{]])}
+\NormalTok{  model_dyn <-}\StringTok{ }\KeywordTok{log}\NormalTok{(}\KeywordTok{evaluate_growth_model}\NormalTok{(ts, logr, logc))}
+  
+\NormalTok{  ## DEBUG: plot to see if it makes sense}
+  \CommentTok{# plot(ts, data_dyn, type='p', col=3,}
+  \CommentTok{#    main='Pa growth (model and data)',}
+  \CommentTok{#    ylab="Pathogen load (fraction)",}
+  \CommentTok{#    xlab="Time (hr)")}
+  \CommentTok{# points(ts, model_dyn)}
+  
+\NormalTok{  ## Compute and return sum-of-squares error}
+\NormalTok{  err <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{((data_dyn }\OperatorTok{-}\StringTok{ }\NormalTok{model_dyn) }\OperatorTok{**}\StringTok{ }\DecValTok{2}\NormalTok{))}
+  \KeywordTok{return}\NormalTok{(err)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Find errors for model instantiated to starting parameter values. Total
+error is the sum of the errors of the single cases.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Get error for model parameters to standard values}
+\NormalTok{errA <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\FloatTok{0.08}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.0038210}\NormalTok{), paA_growth_norm)}
+\NormalTok{errB <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\FloatTok{0.08}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{7e-04}\NormalTok{), paB_growth_norm)}
+\NormalTok{errC <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\FloatTok{0.08}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.00019}\NormalTok{), paC_growth_norm)}
+\NormalTok{total_err <-}\StringTok{ }\NormalTok{errA }\OperatorTok{+}\StringTok{ }\NormalTok{errB }\OperatorTok{+}\StringTok{ }\NormalTok{errC}
+
+\NormalTok{errA}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5614984
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{errB}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9288625
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{errC}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.593686
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{total_err}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.084047
+\end{verbatim}
+
+Perform non-linear fit to find optimal parameters.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{minimize_me <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (pars) \{}
+  \CommentTok{# Objective function. }
+  \CommentTok{# Take colonization rates and growth rate.}
+  \CommentTok{# Return total error between model and data-sets paX_growth_norm}
+  \CommentTok{# CAREFUL: in-coded data-sets.}
+\NormalTok{  logcA <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{1}\NormalTok{]] }
+\NormalTok{  logcB <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{2}\NormalTok{]] }
+\NormalTok{  logcC <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{3}\NormalTok{]] }
+\NormalTok{  logr <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{4}\NormalTok{]]}
+\NormalTok{  errA <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logcA, paA_growth_norm)}
+\NormalTok{  errB <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logcB, paB_growth_norm)}
+\NormalTok{  errC <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logcC, paC_growth_norm)}
+\NormalTok{  total_err <-}\StringTok{ }\NormalTok{errA }\OperatorTok{+}\StringTok{ }\NormalTok{errB }\OperatorTok{+}\StringTok{ }\NormalTok{errC}
+  \KeywordTok{return}\NormalTok{(}\KeywordTok{as.double}\NormalTok{(total_err))}
+\NormalTok{\}}
+
+\NormalTok{ans <-}\StringTok{ }\KeywordTok{optim}\NormalTok{(}\DataTypeTok{par=}\KeywordTok{c}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\FloatTok{0.0038210}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{7e-04}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.00019}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.08}\NormalTok{)), }
+             \DataTypeTok{fn=}\NormalTok{minimize_me,}
+             \DataTypeTok{method =} \StringTok{"Nelder-Mead"}\NormalTok{)}
+
+\NormalTok{ans}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $par
+## [1] -5.604069 -7.077498 -7.999112 -2.471371
+## 
+## $value
+## [1] 2.512691
+## 
+## $counts
+## function gradient 
+##      219       NA 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0036828467 0.0008438818 0.0003357606 0.0844689926
+\end{verbatim}
+
+Show fit with parameters found by minizing objective function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"pracma"}\NormalTok{)}
+
+\NormalTok{logcA <-}\StringTok{ }\NormalTok{ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{logcB <-}\StringTok{ }\NormalTok{ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{logcC <-}\StringTok{ }\NormalTok{ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{3}\NormalTok{]]}
+\NormalTok{logr <-}\StringTok{ }\NormalTok{ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{4}\NormalTok{]]}
+
+\NormalTok{ts <-}\StringTok{ }\KeywordTok{linspace}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{120}\NormalTok{, }\DataTypeTok{n=}\DecValTok{100}\NormalTok{)}
+\NormalTok{paA_model_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, logr, logcA)}
+\NormalTok{paB_model_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, logr, logcB)}
+\NormalTok{paC_model_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, logr, logcC)}
+
+\KeywordTok{plot}\NormalTok{(ts, paA_model_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{col=}\DecValTok{2}\NormalTok{, }
+     \DataTypeTok{main=}\StringTok{'Pa growth (model and data)'}\NormalTok{, }
+     \DataTypeTok{log=}\StringTok{'y'}\NormalTok{, }\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{), }
+     \DataTypeTok{ylab=}\StringTok{"Pathogen load (fraction)"}\NormalTok{,}
+     \DataTypeTok{xlab=}\StringTok{"Time (hr)"}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(ts, paB_model_dyn, }\DataTypeTok{col=}\DecValTok{3}\NormalTok{, }\DataTypeTok{type =} \StringTok{'l'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(ts, paC_model_dyn, }\DataTypeTok{col=}\DecValTok{4}\NormalTok{, }\DataTypeTok{type =} \StringTok{'l'}\NormalTok{)}
+
+\KeywordTok{points}\NormalTok{(paA_growth_norm[[}\DecValTok{1}\NormalTok{]], paA_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{col=}\DecValTok{2}\NormalTok{, }\DataTypeTok{type =} \StringTok{'p'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(paB_growth_norm[[}\DecValTok{1}\NormalTok{]], paB_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{col=}\DecValTok{3}\NormalTok{, }\DataTypeTok{type =} \StringTok{'p'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(paC_growth_norm[[}\DecValTok{1}\NormalTok{]], paC_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{col=}\DecValTok{4}\NormalTok{, }\DataTypeTok{type =} \StringTok{'p'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-25-1.pdf} Find
+optmial parameter values to be reported in Supplementary Table 1.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{as.double}\NormalTok{(}\KeywordTok{exp}\NormalTok{(logr))  }\CommentTok{# Pa growth rate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.08446899
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{as.integer}\NormalTok{(}\KeywordTok{exp}\NormalTok{(logcA) }\OperatorTok{*}\StringTok{ }\NormalTok{KPa)  }\CommentTok{# Pa colonization rate for pre-incub 48 hr}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1031
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{as.integer}\NormalTok{(}\KeywordTok{exp}\NormalTok{(logcB) }\OperatorTok{*}\StringTok{ }\NormalTok{KPa)  }\CommentTok{# Pa colonization rate for pre-incub 24 hr}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 236
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{as.integer}\NormalTok{(}\KeywordTok{exp}\NormalTok{(logcC) }\OperatorTok{*}\StringTok{ }\NormalTok{KPa)  }\CommentTok{# Pa colonization rate for pre-incub 4 hr}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 94
+\end{verbatim}
+
+\subsection{\texorpdfstring{Find error by bootstrapping to \emph{Pa}
+growth curves in Fig.
+4-C}{Find error by bootstrapping to Pa growth curves in Fig. 4-C}}\label{find-error-by-bootstrapping-to-pa-growth-curves-in-fig.-4-c}
+
+Re-sample growth curve by bootstrapping.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{resample_norm_growth_curve <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (ds_growth, k) \{}
+  \CommentTok{# MC bootstrap raw growth data and return}
+  \CommentTok{# normalized mean curve from resampled }
+\NormalTok{  resampled_pts <-}\StringTok{ }\KeywordTok{double}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(ds_growth)) \{}
+\NormalTok{    vec <-}\StringTok{ }\KeywordTok{as.vector}\NormalTok{(ds_growth[i, }\DecValTok{2}\OperatorTok{:}\DecValTok{5}\NormalTok{])  }\CommentTok{# Pick dataset at time point}
+\NormalTok{    vec <-}\StringTok{ }\NormalTok{vec[}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(vec)]  }\CommentTok{# remove NaNs}
+\NormalTok{    data <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(vec, }\DataTypeTok{size =} \KeywordTok{length}\NormalTok{(vec), }\DataTypeTok{replace =}\NormalTok{ T) }\CommentTok{# Resample}
+\NormalTok{    m <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(data) }\OperatorTok{/}\StringTok{ }\NormalTok{KPa }\CommentTok{# Compute statistics for resampled set}
+\NormalTok{    resampled_pts <-}\StringTok{ }\KeywordTok{c}\NormalTok{(resampled_pts, m)}
+\NormalTok{  \}}
+\NormalTok{  ts <-}\StringTok{ }\KeywordTok{as.vector}\NormalTok{(ds_growth[[}\DecValTok{1}\NormalTok{]])}
+  \KeywordTok{return}\NormalTok{(}\KeywordTok{list}\NormalTok{(ts, resampled_pts))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Show bootstrapped curves.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{paA_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(paA_growth, KPa)}
+\KeywordTok{plot}\NormalTok{(paA_growth_norm_inst[[}\DecValTok{1}\NormalTok{]], paA_growth_norm_inst[[}\DecValTok{2}\NormalTok{]], }
+     \DataTypeTok{log=}\StringTok{'y'}\NormalTok{, }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{2}\NormalTok{, }\FloatTok{1.5}\NormalTok{), }
+     \DataTypeTok{xlab=}\StringTok{'Time (hr)'}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{'Pathogen load (fraction)'}\NormalTok{,}
+     \DataTypeTok{main=}\StringTok{'Various resampling of Pa 48h growth curve'}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{30}\NormalTok{) \{}
+\NormalTok{  paA_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(paA_growth, KPa)}
+  \KeywordTok{points}\NormalTok{(paA_growth_norm_inst[[}\DecValTok{1}\NormalTok{]], paA_growth_norm_inst[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{col=}\NormalTok{i)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-28-1.pdf}
+
+Bootstrap growth curves. Fit model to bootstrapped curves.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{find_par_instance <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ () \{}
+  \CommentTok{# Bootstrap growth curves and fit model to curves.}
+  \CommentTok{# Return parameter instance.}
+  
+\NormalTok{  paA_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(paA_growth, KPa)}
+\NormalTok{  paB_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(paB_growth, KPa)}
+\NormalTok{  paC_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(paC_growth, KPa)}
+  
+\NormalTok{  minimize_me2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (pars) \{}
+    \CommentTok{# v2: works on resampled growth curve.}
+    \CommentTok{# Objective function. }
+    \CommentTok{# Take colonization rates and growth rate.}
+    \CommentTok{# Return total error between model and data-sets paX_growth_norm}
+    \CommentTok{# CAREFUL: in-coded data-sets.}
+\NormalTok{    logcA <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{1}\NormalTok{]] }
+\NormalTok{    logcB <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{2}\NormalTok{]] }
+\NormalTok{    logcC <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{3}\NormalTok{]] }
+\NormalTok{    logr <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{4}\NormalTok{]]}
+\NormalTok{    errA <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logcA, paA_growth_norm_inst)}
+\NormalTok{    errB <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logcB, paB_growth_norm_inst)}
+\NormalTok{    errC <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logcC, paC_growth_norm_inst)}
+\NormalTok{    total_err <-}\StringTok{ }\NormalTok{errA }\OperatorTok{+}\StringTok{ }\NormalTok{errB }\OperatorTok{+}\StringTok{ }\NormalTok{errC}
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{as.double}\NormalTok{(total_err))}
+\NormalTok{  \}}
+  
+\NormalTok{  ans <-}\StringTok{ }\KeywordTok{optim}\NormalTok{(}\DataTypeTok{par=}\KeywordTok{c}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\FloatTok{0.0038210}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{7e-04}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.00019}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.08}\NormalTok{)), }
+         \DataTypeTok{fn=}\NormalTok{minimize_me2,}
+         \DataTypeTok{method =} \StringTok{"Nelder-Mead"}\NormalTok{)}
+  
+  \CommentTok{# print(exp(ans$par))}
+  \KeywordTok{return}\NormalTok{(ans)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{show_histograms <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{}
+\NormalTok{  ## Generate distributions}
+\NormalTok{  cAs <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+\NormalTok{  cBs <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+\NormalTok{  cCs <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+\NormalTok{  rs <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{500}\NormalTok{) \{}
+\NormalTok{    ans <-}\StringTok{ }\KeywordTok{find_par_instance}\NormalTok{()}
+\NormalTok{    cAs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(cAs, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{1}\NormalTok{]]))}
+\NormalTok{    cBs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(cBs, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{2}\NormalTok{]]))}
+\NormalTok{    cCs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(cCs, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{3}\NormalTok{]]))}
+\NormalTok{    rs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(rs, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{4}\NormalTok{]]))}
+\NormalTok{  \}}
+\NormalTok{  ## Compute s.e.m.}
+\NormalTok{  r_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(rs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  cA_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(cAs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  cB_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(cBs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  cC_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(cCs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+  
+\NormalTok{  ## Compute mean}
+\NormalTok{  r_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{mean}\NormalTok{(rs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  cA_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{mean}\NormalTok{(cAs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  cB_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{mean}\NormalTok{(cBs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  cC_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{mean}\NormalTok{(cCs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+
+\NormalTok{  ## Plot histograms}
+  \KeywordTok{hist}\NormalTok{(rs, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Pa growth rate. val:'}\NormalTok{, r_val, }\StringTok{"+/-"}\NormalTok{, r_sem))}
+  \KeywordTok{hist}\NormalTok{(cAs, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Pa col. rate. val:'}\NormalTok{, cA_val, }\StringTok{"+/-"}\NormalTok{, cA_sem))}
+  \KeywordTok{hist}\NormalTok{(cBs, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Pa col. rate. val:'}\NormalTok{, cB_val, }\StringTok{"+/-"}\NormalTok{, cB_sem))}
+  \KeywordTok{hist}\NormalTok{(cCs, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Pa col. rate. val:'}\NormalTok{, cC_val, }\StringTok{"+/-"}\NormalTok{, cC_sem))}
+
+\NormalTok{\}}
+\KeywordTok{show_histograms}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-30-1.pdf}
+\includegraphics{source_files/figure-latex/unnamed-chunk-30-2.pdf}
+\includegraphics{source_files/figure-latex/unnamed-chunk-30-3.pdf}
+\includegraphics{source_files/figure-latex/unnamed-chunk-30-4.pdf}
+
+Colonization rate errors are normalized by carrying capacities. Reported
+in Supplementary Table 1.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FloatTok{0.00043}\OperatorTok{*}\StringTok{ }\NormalTok{KPa}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 120.4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FloatTok{0.00017} \OperatorTok{*}\StringTok{ }\NormalTok{KPa}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 47.6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FloatTok{5e-05} \OperatorTok{*}\StringTok{ }\NormalTok{KPa}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 14
+\end{verbatim}
+
+\section{\texorpdfstring{Non-linear fit of \emph{Pa}, \emph{Sm} and
+\emph{Se} growth/survival curves in Fig.
+3}{Non-linear fit of Pa, Sm and Se growth/survival curves in Fig. 3}}\label{non-linear-fit-of-pa-sm-and-se-growthsurvival-curves-in-fig.-3}
+
+\subsection{Fit model to mean curves (survival and growth
+curves)}\label{fit-model-to-mean-curves-survival-and-growth-curves}
+
+Load growth curves from CSV files
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{options <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}
+            \DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{, }
+            \DataTypeTok{col.names =}  \KeywordTok{c}\NormalTok{(}\StringTok{"times hr"}\NormalTok{,}\StringTok{"Cells replica 1"}\NormalTok{,}\StringTok{"Cells replica 2"}\NormalTok{,}\StringTok{"Cells replica 3"}\NormalTok{,}\StringTok{"Cells replica 4"}\NormalTok{)}
+\NormalTok{            )}
+
+\NormalTok{args <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{paste}\NormalTok{(wd1, }\StringTok{'pa_growth.csv'}\NormalTok{, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{), options)}
+\NormalTok{pa_growth <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(read.csv, args)}
+
+\NormalTok{args <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{paste}\NormalTok{(wd1, }\StringTok{'sm_growth.csv'}\NormalTok{, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{), options)}
+\NormalTok{sm_growth <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(read.csv, args)}
+
+\NormalTok{args <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{paste}\NormalTok{(wd1, }\StringTok{'se_growth.csv'}\NormalTok{, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{), options)}
+\NormalTok{se_growth <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(read.csv, args)}
+\end{Highlighting}
+\end{Shaded}
+
+Display growth data and mean curve of pathogen loads. Draw horizontal
+line to inspect carrying capacity.
+
+Display growth data, find carrying capacity by inspection and return
+normalized growth curves.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{display_growth_data <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (dfs, title_text, K) \{}
+  \CommentTok{# Print growth data from `dfs` along with mean curve.}
+  \CommentTok{# Title figure `title_text`.}
+  \CommentTok{# Draw horizontal line with intercept `K`}
+  \CommentTok{# Return normalized mean curve as 2d list (times, vals).}
+  
+\NormalTok{  ## Get data as matrices}
+\NormalTok{  cells <-}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(dfs[, }\DecValTok{2}\OperatorTok{:}\DecValTok{5}\NormalTok{])}
+\NormalTok{  ts <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rep}\NormalTok{(dfs[[}\DecValTok{1}\NormalTok{]], }\DecValTok{4}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{4}\NormalTok{, }\DataTypeTok{byrow =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{  ts <-}\StringTok{ }\KeywordTok{t}\NormalTok{(ts)}
+
+\NormalTok{  ## Compute mean curve}
+\NormalTok{  mean_curve_cells <-}\StringTok{ }\KeywordTok{rowMeans}\NormalTok{(cells, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{) }
+\NormalTok{  mean_curve_ts <-}\StringTok{ }\NormalTok{ts[,}\DecValTok{1}\NormalTok{]}
+  
+\NormalTok{  ## Flatten data for plotting}
+\NormalTok{  ts <-}\StringTok{ }\KeywordTok{as.vector}\NormalTok{(ts)}
+\NormalTok{  cells <-}\StringTok{ }\KeywordTok{as.vector}\NormalTok{(cells)}
+  
+\NormalTok{  ## Plot raw data}
+  \KeywordTok{plot}\NormalTok{(ts, cells, }
+       \DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{180}\NormalTok{), }
+       \DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**}\DecValTok{2}\NormalTok{, }\DecValTok{2}\OperatorTok{*}\DecValTok{10}\OperatorTok{**}\DecValTok{6}\NormalTok{), }
+       \DataTypeTok{log =} \StringTok{"y"}\NormalTok{, }
+       \DataTypeTok{main =}\NormalTok{ title_text,}
+       \DataTypeTok{xlab =} \StringTok{'Time (hr)'}\NormalTok{,}
+       \DataTypeTok{ylab =} \StringTok{'Pathogen load (cells)'}
+\NormalTok{       )}
+  
+\NormalTok{  ## Add mean curve to plot}
+  \KeywordTok{points}\NormalTok{(mean_curve_ts, mean_curve_cells, }\DataTypeTok{type =} \StringTok{'l'}\NormalTok{)}
+  
+\NormalTok{  ## Add carrying capacity line}
+  \KeywordTok{abline}\NormalTok{(}\DataTypeTok{h =}\NormalTok{ K, }\DataTypeTok{lt=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'red'}\NormalTok{)}
+  
+  \KeywordTok{return}\NormalTok{(}\KeywordTok{list}\NormalTok{(mean_curve_ts, mean_curve_cells }\OperatorTok{/}\StringTok{ }\NormalTok{K))}
+\NormalTok{\}}
+
+\NormalTok{KPa <-}\StringTok{ }\FloatTok{2.8} \OperatorTok{*}\StringTok{ }\DecValTok{10}\OperatorTok{**}\DecValTok{5}
+\NormalTok{KSm <-}\StringTok{ }\FloatTok{1.1} \OperatorTok{*}\StringTok{ }\DecValTok{10}\OperatorTok{**}\DecValTok{5}
+\NormalTok{KSe <-}\StringTok{ }\FloatTok{1.7} \OperatorTok{*}\StringTok{ }\DecValTok{10}\OperatorTok{**}\DecValTok{6}
+\NormalTok{pa_growth_norm <-}\StringTok{ }\KeywordTok{display_growth_data}\NormalTok{(pa_growth, }\StringTok{"Pa"}\NormalTok{, KPa)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-33-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sm_growth_norm <-}\StringTok{ }\KeywordTok{display_growth_data}\NormalTok{(sm_growth, }\StringTok{"Sm"}\NormalTok{, KSm)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-33-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{se_growth_norm <-}\StringTok{ }\KeywordTok{display_growth_data}\NormalTok{(se_growth, }\StringTok{"Se"}\NormalTok{, KSe)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-33-3.pdf}
+
+Display survival curve data and get mean curve.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{display_surv_data <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (dfs, title_text) \{}
+  \CommentTok{# Display survival data and mean curve }
+  
+\NormalTok{  ## Get mean survival curve}
+\NormalTok{  w_rows <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (df }\ControlFlowTok{in}\NormalTok{ dfs) \{}
+\NormalTok{    w_rows <-}\StringTok{ }\KeywordTok{as.double}\NormalTok{(}\KeywordTok{c}\NormalTok{(w_rows, df[[}\DecValTok{2}\NormalTok{]]))}
+\NormalTok{  \}}
+\NormalTok{  row_matrix <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(w_rows, }\DataTypeTok{nrow =} \KeywordTok{length}\NormalTok{(dfs), }\DataTypeTok{byrow =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{  mean_sc <-}\StringTok{ }\KeywordTok{colMeans}\NormalTok{(row_matrix)}
+
+\NormalTok{  ## Plot mean surv curve}
+\NormalTok{  times <-}\StringTok{ }\NormalTok{dfs[[}\DecValTok{1}\NormalTok{]][[}\DecValTok{1}\NormalTok{]]}
+  \KeywordTok{plot}\NormalTok{(}
+\NormalTok{      times, mean_sc,}
+      \DataTypeTok{ylab=}\StringTok{'Fraction of worms surviving'}\NormalTok{, }
+      \DataTypeTok{xlab=}\StringTok{'Time (hr)'}\NormalTok{, }
+      \DataTypeTok{log=}\StringTok{"y"}\NormalTok{, }
+      \DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{180}\NormalTok{), }
+      \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{3}\NormalTok{, }\FloatTok{1.2}\NormalTok{),}
+      \DataTypeTok{main=}\NormalTok{title_text,}
+      \DataTypeTok{type=}\StringTok{'l'}
+\NormalTok{    )}
+  
+\NormalTok{  ## Add raw data}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(dfs)) \{}
+\NormalTok{    df <-}\StringTok{ }\NormalTok{dfs[[i]]}
+\NormalTok{    ts <-}\StringTok{ }\NormalTok{df[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{    pts <-}\StringTok{ }\NormalTok{df[[}\DecValTok{2}\NormalTok{]]}
+    \KeywordTok{points}\NormalTok{(ts, pts, }\DataTypeTok{col=}\NormalTok{i, }\DataTypeTok{type=}\StringTok{'p'}\NormalTok{)}
+\NormalTok{  \}}
+  
+\NormalTok{   ## Return mean surv curve}
+  \KeywordTok{return}\NormalTok{(}\KeywordTok{list}\NormalTok{(times, mean_sc))}
+\NormalTok{\}}
+
+\NormalTok{pa_surv <-}\StringTok{ }\KeywordTok{display_surv_data}\NormalTok{(pa_dfs, }\StringTok{"Pa surv. data"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-34-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sm_surv <-}\StringTok{ }\KeywordTok{display_surv_data}\NormalTok{(sm_dfs, }\StringTok{"Sm surv. data"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-34-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{se_surv <-}\StringTok{ }\KeywordTok{display_surv_data}\NormalTok{(se_dfs, }\StringTok{"Se surv. data"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-34-3.pdf}
+
+Compute pathogen load model solution.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{evaluate_surv_model <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (t, logr, logc, logd) \{}
+  \CommentTok{# Return survival function at time t.}
+  \CommentTok{# `t` can be a list of times.}
+  \CommentTok{# log transform r, c and delta so that optimization problem is unconstrained.}
+\NormalTok{  ## ADD CARRYING CAPACITY K}
+  
+  \KeywordTok{library}\NormalTok{(}\StringTok{"Brobdingnag"}\NormalTok{)  }\CommentTok{# Handles very large number}
+  
+\NormalTok{  ## Multiplies whole exponential}
+\NormalTok{  coeff2 <-}\StringTok{ }\KeywordTok{as.brob}\NormalTok{(}\KeywordTok{exp}\NormalTok{(logc }\OperatorTok{-}\StringTok{ }\NormalTok{logr }\OperatorTok{+}\StringTok{ }\NormalTok{logd))}
+\NormalTok{  coeff <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(coeff2 }\OperatorTok{*}\StringTok{ }\NormalTok{t)}
+  
+\NormalTok{  num <-}\StringTok{ }\KeywordTok{as.brob}\NormalTok{(}\KeywordTok{exp}\NormalTok{(logc) }\OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(logr))}
+\NormalTok{  den <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(logc }\OperatorTok{+}\StringTok{ }\NormalTok{num}\OperatorTok{*}\NormalTok{t) }\OperatorTok{+}\StringTok{ }\KeywordTok{exp}\NormalTok{(logr)}
+  
+\NormalTok{  frac <-}\StringTok{ }\NormalTok{(num}\OperatorTok{/}\NormalTok{den) }\OperatorTok{**}\StringTok{ }\KeywordTok{exp}\NormalTok{(logd}\OperatorTok{-}\NormalTok{logr)}
+  
+\NormalTok{  ans <-}\StringTok{ }\KeywordTok{as.double}\NormalTok{(frac }\OperatorTok{*}\StringTok{ }\NormalTok{coeff)}
+  \KeywordTok{return}\NormalTok{ (ans)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Show model predictions on data for starting parameter values.
+
+Display growth and survival data with models predictions initialized to
+starting parameter values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Show data and model prediction for Pa}
+\NormalTok{ts <-}\StringTok{ }\NormalTok{pa_surv[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{pts <-}\StringTok{ }\NormalTok{pa_surv[[}\DecValTok{2}\NormalTok{]]}
+\KeywordTok{plot}\NormalTok{(ts, pts, }
+     \DataTypeTok{log=}\StringTok{"y"}\NormalTok{, }
+     \DataTypeTok{col=}\StringTok{'dark green'}\NormalTok{, }
+     \DataTypeTok{main=}\StringTok{'Pa surv data'}\NormalTok{, }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+     \DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{180}\NormalTok{)}
+\NormalTok{     )}
+\NormalTok{ts <-}\StringTok{ }\KeywordTok{linspace}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{180}\NormalTok{, }\DataTypeTok{n=}\DecValTok{100}\NormalTok{)}
+\NormalTok{pa_model_surv_dyn <-}\StringTok{ }\KeywordTok{evaluate_surv_model}\NormalTok{(ts, }\KeywordTok{log}\NormalTok{(}\FloatTok{0.09}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.001}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.058}\NormalTok{))}
+\NormalTok{pa_model_growth_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, }\KeywordTok{log}\NormalTok{(}\FloatTok{0.09}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.001}\NormalTok{))}
+\KeywordTok{points}\NormalTok{(ts, pa_model_surv_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{col=}\StringTok{'dark green'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(pa_growth_norm[[}\DecValTok{1}\NormalTok{]], pa_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{type=}\StringTok{'p'}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'dark green'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(ts, pa_model_growth_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'dark green'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-36-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Show data and model prediction for Sm}
+\NormalTok{ts <-}\StringTok{ }\NormalTok{sm_surv[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{pts <-}\StringTok{ }\NormalTok{sm_surv[[}\DecValTok{2}\NormalTok{]]}
+\KeywordTok{plot}\NormalTok{(ts, pts, }
+     \DataTypeTok{log=}\StringTok{"y"}\NormalTok{, }
+     \DataTypeTok{col=}\StringTok{'brown'}\NormalTok{, }
+     \DataTypeTok{main=}\StringTok{'Sm surv data'}\NormalTok{, }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+     \DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{180}\NormalTok{)}
+\NormalTok{     )}
+\NormalTok{ts <-}\StringTok{ }\KeywordTok{linspace}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{180}\NormalTok{, }\DataTypeTok{n=}\DecValTok{100}\NormalTok{)}
+\NormalTok{sm_model_surv_dyn <-}\StringTok{ }\KeywordTok{evaluate_surv_model}\NormalTok{(ts, }\KeywordTok{log}\NormalTok{(}\FloatTok{0.07}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.002}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.02}\NormalTok{))}
+\NormalTok{sm_model_growth_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, }\KeywordTok{log}\NormalTok{(}\FloatTok{0.09}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.001}\NormalTok{))}
+\KeywordTok{points}\NormalTok{(ts, sm_model_surv_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{col=}\StringTok{'brown'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(sm_growth_norm[[}\DecValTok{1}\NormalTok{]], sm_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{type=}\StringTok{'p'}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'brown'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(ts, sm_model_growth_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'brown'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-36-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Show data and model prediction for Se}
+\NormalTok{ts <-}\StringTok{ }\NormalTok{se_surv[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{pts <-}\StringTok{ }\NormalTok{se_surv[[}\DecValTok{2}\NormalTok{]]}
+\KeywordTok{plot}\NormalTok{(ts, pts, }
+     \DataTypeTok{log=}\StringTok{"y"}\NormalTok{, }
+     \DataTypeTok{col=}\StringTok{'purple'}\NormalTok{, }
+     \DataTypeTok{main=}\StringTok{'Se surv data'}\NormalTok{, }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+     \DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{180}\NormalTok{)}
+\NormalTok{     )}
+\NormalTok{ts <-}\StringTok{ }\KeywordTok{linspace}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{180}\NormalTok{, }\DataTypeTok{n=}\DecValTok{100}\NormalTok{)}
+\NormalTok{se_model_surv_dyn <-}\StringTok{ }\KeywordTok{evaluate_surv_model}\NormalTok{(ts, }\KeywordTok{log}\NormalTok{(}\FloatTok{0.08}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.00003}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.033}\NormalTok{))}
+\NormalTok{se_model_growth_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, }\KeywordTok{log}\NormalTok{(}\FloatTok{0.09}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.00003}\NormalTok{))}
+\KeywordTok{points}\NormalTok{(ts, se_model_surv_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{col=}\StringTok{'purple'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(se_growth_norm[[}\DecValTok{1}\NormalTok{]], se_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{type=}\StringTok{'p'}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'purple'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(ts, se_model_growth_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'purple'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-36-3.pdf}
+
+Compute sum-of-squares error between growth model solution and (a
+single) data set.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{get_growth_model_error <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (logr, logc, data) \{}
+  \CommentTok{# Return sum-of-squares error between data growth points }
+  \CommentTok{# and model initialized with parameters r and c.}
+  \CommentTok{# Logs of r and c are passed to constraint the parameters}
+  \CommentTok{# to positive values.}
+  
+\NormalTok{  ## Get times and log of data}
+\NormalTok{  ts <-}\StringTok{ }\NormalTok{data[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  data_dyn <-}\StringTok{ }\KeywordTok{log}\NormalTok{(data[[}\DecValTok{2}\NormalTok{]])}
+\NormalTok{  model_dyn <-}\StringTok{ }\KeywordTok{log}\NormalTok{(}\KeywordTok{evaluate_growth_model}\NormalTok{(ts, logr, logc))}
+  
+  \CommentTok{# # DEBUG: plot to see if it makes sense}
+  \CommentTok{# plot(ts, data_dyn, type='p', col=3,}
+  \CommentTok{#    main='Pa growth (model and data)',}
+  \CommentTok{#    ylab="Pathogen load (fraction)",}
+  \CommentTok{#    xlab="Time (hr)")}
+  \CommentTok{# points(ts, model_dyn)}
+  
+\NormalTok{  ## Compute and return sum-of-squares error}
+\NormalTok{  err <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{((data_dyn }\OperatorTok{-}\StringTok{ }\NormalTok{model_dyn) }\OperatorTok{**}\StringTok{ }\DecValTok{2}\NormalTok{))}
+  \KeywordTok{return}\NormalTok{(err)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Compute sum-of-squares error between survival model solution and (a
+single data) set.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{get_surv_model_error <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (logr, logc, logd, data) \{}
+  \CommentTok{# Return sum-of-squares error between data surv points }
+  \CommentTok{# and model initialized with parameters r, c and delta.}
+  \CommentTok{# Logs of pars are passed to constraint the parameters}
+  \CommentTok{# to positive values.}
+  
+\NormalTok{  ## Get times and log of data}
+\NormalTok{  ts <-}\StringTok{ }\NormalTok{data[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  data_dyn <-}\StringTok{ }\KeywordTok{log}\NormalTok{(data[[}\DecValTok{2}\NormalTok{]])}
+\NormalTok{  model_dyn <-}\StringTok{ }\KeywordTok{log}\NormalTok{(}\KeywordTok{evaluate_surv_model}\NormalTok{(ts, logr, logc, logd))}
+  
+  \CommentTok{# # DEBUG: plot to see if it makes sense}
+  \CommentTok{# plot(ts, data_dyn, type='p', col=3,}
+  \CommentTok{#    xlab="Time (hr)")}
+  \CommentTok{# points(ts, model_dyn)}
+
+\NormalTok{  ## Compute and return sum-of-squares error}
+\NormalTok{  err <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{sum}\NormalTok{((data_dyn }\OperatorTok{-}\StringTok{ }\NormalTok{model_dyn) }\OperatorTok{**}\StringTok{ }\DecValTok{2}\NormalTok{))}
+  \KeywordTok{return}\NormalTok{(err)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Object functions for the three datasets.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pa_minimize_me <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(pars) \{}
+\NormalTok{  logr <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{1}\NormalTok{]] }
+\NormalTok{  logc <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{  logd <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{3}\NormalTok{]]}
+\NormalTok{  err_surv <-}\StringTok{ }\KeywordTok{get_surv_model_error}\NormalTok{(logr, logc, logd, pa_surv)}
+\NormalTok{  err_growth <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logc, pa_growth_norm)}
+\NormalTok{  tot_err <-}\StringTok{ }\NormalTok{err_growth }\OperatorTok{+}\StringTok{ }\NormalTok{err_surv}
+  \KeywordTok{return}\NormalTok{(tot_err)}
+\NormalTok{\}}
+
+\NormalTok{sm_minimize_me <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(pars) \{}
+\NormalTok{  logr <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{1}\NormalTok{]] }
+\NormalTok{  logc <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{  logd <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{3}\NormalTok{]]}
+\NormalTok{  err_surv <-}\StringTok{ }\KeywordTok{get_surv_model_error}\NormalTok{(logr, logc, logd, sm_surv)}
+\NormalTok{  err_growth <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logc, sm_growth_norm)}
+\NormalTok{  tot_err <-}\StringTok{ }\NormalTok{err_growth }\OperatorTok{+}\StringTok{ }\NormalTok{err_surv}
+  \KeywordTok{return}\NormalTok{(tot_err)}
+\NormalTok{\}}
+
+\NormalTok{se_minimize_me <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(pars) \{}
+\NormalTok{  logr <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{1}\NormalTok{]] }
+\NormalTok{  logc <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{  logd <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{3}\NormalTok{]]}
+\NormalTok{  err_surv <-}\StringTok{ }\KeywordTok{get_surv_model_error}\NormalTok{(logr, logc, logd, se_surv)}
+\NormalTok{  err_growth <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logc, se_growth_norm)}
+\NormalTok{  tot_err <-}\StringTok{ }\NormalTok{err_growth }\OperatorTok{+}\StringTok{ }\NormalTok{err_surv}
+  \KeywordTok{return}\NormalTok{(tot_err)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Find \emph{Pa} optimal parameters.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pa_ans <-}\StringTok{ }\KeywordTok{optim}\NormalTok{(}\DataTypeTok{par=}\KeywordTok{c}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\FloatTok{0.09}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.001}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.058}\NormalTok{)), }
+             \DataTypeTok{fn=}\NormalTok{pa_minimize_me,}
+             \DataTypeTok{method =} \StringTok{"Nelder-Mead"}\NormalTok{)}
+
+\NormalTok{pa_ans}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $par
+## [1] -2.069538 -7.765565 -2.976791
+## 
+## $value
+## [1] 0.6593284
+## 
+## $counts
+## function gradient 
+##      154       NA 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{exp}\NormalTok{(pa_ans}\OperatorTok{$}\NormalTok{par)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.12624408 0.00042409 0.05095611
+\end{verbatim}
+
+Find \emph{Sm} optimal parameters.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sm_ans <-}\StringTok{ }\KeywordTok{optim}\NormalTok{(}\DataTypeTok{par=}\KeywordTok{c}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\FloatTok{0.07}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.002}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.02}\NormalTok{)), }
+             \DataTypeTok{fn=}\NormalTok{sm_minimize_me,}
+             \DataTypeTok{method =} \StringTok{"Nelder-Mead"}\NormalTok{)}
+
+\NormalTok{sm_ans}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $par
+## [1] -2.500719 -6.720666 -3.719750
+## 
+## $value
+## [1] 0.5518004
+## 
+## $counts
+## function gradient 
+##      160       NA 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{exp}\NormalTok{(sm_ans}\OperatorTok{$}\NormalTok{par)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.082026001 0.001205735 0.024240024
+\end{verbatim}
+
+Find \emph{Se} optimal parameters.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{se_ans <-}\StringTok{ }\KeywordTok{optim}\NormalTok{(}\DataTypeTok{par=}\KeywordTok{c}\NormalTok{(}\KeywordTok{log}\NormalTok{(}\FloatTok{0.08}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.00003}\NormalTok{), }\KeywordTok{log}\NormalTok{(}\FloatTok{0.033}\NormalTok{)), }
+             \DataTypeTok{fn=}\NormalTok{se_minimize_me,}
+             \DataTypeTok{method =} \StringTok{"Nelder-Mead"}\NormalTok{)}
+
+\NormalTok{se_ans}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $par
+## [1]  -2.537121 -10.314167  -3.585918
+## 
+## $value
+## [1] 0.9313928
+## 
+## $counts
+## function gradient 
+##       98       NA 
+## 
+## $convergence
+## [1] 0
+## 
+## $message
+## NULL
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{exp}\NormalTok{(se_ans}\OperatorTok{$}\NormalTok{par)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 7.909376e-02 3.315999e-05 2.771121e-02
+\end{verbatim}
+
+Show data and best model predictions for optimal parameters.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Show data and model prediction for Pa}
+\NormalTok{logr <-}\StringTok{ }\NormalTok{pa_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{logc <-}\StringTok{ }\NormalTok{pa_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{logd <-}\StringTok{ }\NormalTok{pa_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{3}\NormalTok{]]}
+\NormalTok{ts <-}\StringTok{ }\NormalTok{pa_surv[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{pts <-}\StringTok{ }\NormalTok{pa_surv[[}\DecValTok{2}\NormalTok{]]}
+\KeywordTok{plot}\NormalTok{(ts, pts, }
+     \DataTypeTok{log=}\StringTok{"y"}\NormalTok{, }
+     \DataTypeTok{col=}\StringTok{'dark green'}\NormalTok{, }
+     \DataTypeTok{main=}\StringTok{'Pa surv data'}\NormalTok{, }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+     \DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{180}\NormalTok{)}
+\NormalTok{     )}
+\NormalTok{ts <-}\StringTok{ }\KeywordTok{linspace}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{180}\NormalTok{, }\DataTypeTok{n=}\DecValTok{100}\NormalTok{)}
+\NormalTok{pa_model_surv_dyn <-}\StringTok{ }\KeywordTok{evaluate_surv_model}\NormalTok{(ts, logr, logc, logd)}
+\NormalTok{pa_model_growth_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, logr, logc)}
+\KeywordTok{points}\NormalTok{(ts, pa_model_surv_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{col=}\StringTok{'dark green'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(pa_growth_norm[[}\DecValTok{1}\NormalTok{]], pa_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{type=}\StringTok{'p'}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'dark green'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(ts, pa_model_growth_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'dark green'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-43-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Show data and model prediction for Sm}
+\NormalTok{logr <-}\StringTok{ }\NormalTok{sm_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{logc <-}\StringTok{ }\NormalTok{sm_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{logd <-}\StringTok{ }\NormalTok{sm_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{3}\NormalTok{]]}
+\NormalTok{ts <-}\StringTok{ }\NormalTok{sm_surv[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{pts <-}\StringTok{ }\NormalTok{sm_surv[[}\DecValTok{2}\NormalTok{]]}
+\KeywordTok{plot}\NormalTok{(ts, pts, }
+     \DataTypeTok{log=}\StringTok{"y"}\NormalTok{, }
+     \DataTypeTok{col=}\StringTok{'brown'}\NormalTok{, }
+     \DataTypeTok{main=}\StringTok{'Sm surv data'}\NormalTok{, }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+     \DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{180}\NormalTok{)}
+\NormalTok{     )}
+\NormalTok{ts <-}\StringTok{ }\KeywordTok{linspace}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{180}\NormalTok{, }\DataTypeTok{n=}\DecValTok{100}\NormalTok{)}
+\NormalTok{sm_model_surv_dyn <-}\StringTok{ }\KeywordTok{evaluate_surv_model}\NormalTok{(ts, logr, logc, logd)}
+\NormalTok{sm_model_growth_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, logr, logc)}
+\KeywordTok{points}\NormalTok{(ts, sm_model_surv_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{col=}\StringTok{'brown'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(sm_growth_norm[[}\DecValTok{1}\NormalTok{]], sm_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{type=}\StringTok{'p'}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'brown'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(ts, sm_model_growth_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'brown'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-43-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Show data and model prediction for Se}
+\NormalTok{logr <-}\StringTok{ }\NormalTok{se_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{logc <-}\StringTok{ }\NormalTok{se_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{logd <-}\StringTok{ }\NormalTok{se_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{3}\NormalTok{]]}
+\NormalTok{ts <-}\StringTok{ }\NormalTok{se_surv[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{pts <-}\StringTok{ }\NormalTok{se_surv[[}\DecValTok{2}\NormalTok{]]}
+\KeywordTok{plot}\NormalTok{(ts, pts, }
+     \DataTypeTok{log=}\StringTok{"y"}\NormalTok{, }
+     \DataTypeTok{col=}\StringTok{'purple'}\NormalTok{, }
+     \DataTypeTok{main=}\StringTok{'Se surv data'}\NormalTok{, }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{4}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+     \DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{180}\NormalTok{)}
+\NormalTok{     )}
+\NormalTok{ts <-}\StringTok{ }\KeywordTok{linspace}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{180}\NormalTok{, }\DataTypeTok{n=}\DecValTok{100}\NormalTok{)}
+\NormalTok{se_model_surv_dyn <-}\StringTok{ }\KeywordTok{evaluate_surv_model}\NormalTok{(ts, logr, logc, logd)}
+\NormalTok{se_model_growth_dyn <-}\StringTok{ }\KeywordTok{evaluate_growth_model}\NormalTok{(ts, logr, logc)}
+\KeywordTok{points}\NormalTok{(ts, se_model_surv_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{col=}\StringTok{'purple'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(se_growth_norm[[}\DecValTok{1}\NormalTok{]], se_growth_norm[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{type=}\StringTok{'p'}\NormalTok{, }\DataTypeTok{pch=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'purple'}\NormalTok{)}
+\KeywordTok{points}\NormalTok{(ts, se_model_growth_dyn, }\DataTypeTok{type=}\StringTok{'l'}\NormalTok{, }\DataTypeTok{lty=}\DecValTok{2}\NormalTok{, }\DataTypeTok{col=}\StringTok{'purple'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-43-3.pdf}
+
+Print parameter values to be used in paper.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rPa <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(pa_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{1}\NormalTok{]])}
+\NormalTok{cPa <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(pa_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{2}\NormalTok{]]) }
+\NormalTok{dPa <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(pa_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{3}\NormalTok{]])}
+\KeywordTok{c}\NormalTok{(rPa, cPa }\OperatorTok{*}\StringTok{ }\NormalTok{KPa, dPa)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]   0.12624408 118.74521047   0.05095611
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rSm <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(sm_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{1}\NormalTok{]])}
+\NormalTok{cSm <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(sm_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{2}\NormalTok{]])}
+\NormalTok{dSm <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(sm_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{3}\NormalTok{]])}
+\KeywordTok{c}\NormalTok{(rSm, cSm }\OperatorTok{*}\StringTok{ }\NormalTok{KSm, dSm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]   0.08202600 132.63090127   0.02424002
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rSe <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(se_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{1}\NormalTok{]])}
+\NormalTok{cSe <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(se_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{2}\NormalTok{]])}
+\NormalTok{dSe <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(se_ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{3}\NormalTok{]])}
+\KeywordTok{c}\NormalTok{(rSe, cSe }\OperatorTok{*}\StringTok{ }\NormalTok{KSe, dSe)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  0.07909376 56.37198092  0.02771121
+\end{verbatim}
+
+\subsection{Find errors by
+bootstrapping}\label{find-errors-by-bootstrapping}
+
+Re-sample growth curve by bootstrapping.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{resample_norm_growth_curve <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (ds_growth, K) \{}
+  \CommentTok{# MC bootstrap raw growth data and return}
+  \CommentTok{# normalized mean curve from resampled }
+\NormalTok{  resampled_pts <-}\StringTok{ }\KeywordTok{double}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\KeywordTok{nrow}\NormalTok{(ds_growth)) \{}
+\NormalTok{    vec <-}\StringTok{ }\KeywordTok{as.vector}\NormalTok{(ds_growth[i, }\DecValTok{2}\OperatorTok{:}\DecValTok{5}\NormalTok{])  }\CommentTok{# Pick dataset at time point}
+\NormalTok{    vec <-}\StringTok{ }\NormalTok{vec[}\OperatorTok{!}\KeywordTok{is.na}\NormalTok{(vec)]  }\CommentTok{# remove NaNs}
+\NormalTok{    data <-}\StringTok{ }\KeywordTok{sample}\NormalTok{(vec, }\DataTypeTok{size =} \KeywordTok{length}\NormalTok{(vec), }\DataTypeTok{replace =}\NormalTok{ T) }\CommentTok{# Resample}
+\NormalTok{    m <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(data) }\OperatorTok{/}\StringTok{ }\NormalTok{K }\CommentTok{# Compute statistics for resampled set}
+\NormalTok{    resampled_pts <-}\StringTok{ }\KeywordTok{c}\NormalTok{(resampled_pts, m)}
+\NormalTok{  \}}
+\NormalTok{  ts <-}\StringTok{ }\KeywordTok{as.vector}\NormalTok{(ds_growth[[}\DecValTok{1}\NormalTok{]])}
+  \KeywordTok{return}\NormalTok{(}\KeywordTok{list}\NormalTok{(ts, resampled_pts))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Show bootstrapped growth curves.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pa_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(pa_growth, KPa)}
+\KeywordTok{plot}\NormalTok{(pa_growth_norm_inst[[}\DecValTok{1}\NormalTok{]], pa_growth_norm_inst[[}\DecValTok{2}\NormalTok{]], }
+     \DataTypeTok{log=}\StringTok{'y'}\NormalTok{, }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{2}\NormalTok{, }\FloatTok{1.5}\NormalTok{), }
+     \DataTypeTok{xlab=}\StringTok{'Time (hr)'}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{'Pathogen load (fraction)'}\NormalTok{,}
+     \DataTypeTok{main=}\StringTok{'Resampling Pa growth curve'}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{30}\NormalTok{) \{}
+\NormalTok{  pa_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(pa_growth, KPa)}
+  \KeywordTok{points}\NormalTok{(pa_growth_norm_inst[[}\DecValTok{1}\NormalTok{]], pa_growth_norm_inst[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{col=}\NormalTok{i)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-46-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sm_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(sm_growth, KSm)}
+\KeywordTok{plot}\NormalTok{(sm_growth_norm_inst[[}\DecValTok{1}\NormalTok{]], sm_growth_norm_inst[[}\DecValTok{2}\NormalTok{]], }
+     \DataTypeTok{log=}\StringTok{'y'}\NormalTok{, }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{2}\NormalTok{, }\FloatTok{1.5}\NormalTok{), }
+     \DataTypeTok{xlab=}\StringTok{'Time (hr)'}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{'Pathogen load (fraction)'}\NormalTok{,}
+     \DataTypeTok{main=}\StringTok{'Resampling Sm growth curve'}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{30}\NormalTok{) \{}
+\NormalTok{  sm_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(sm_growth, KSm)}
+  \KeywordTok{points}\NormalTok{(sm_growth_norm_inst[[}\DecValTok{1}\NormalTok{]], sm_growth_norm_inst[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{col=}\NormalTok{i)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-46-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{se_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(se_growth, KSe)}
+\KeywordTok{plot}\NormalTok{(se_growth_norm_inst[[}\DecValTok{1}\NormalTok{]], se_growth_norm_inst[[}\DecValTok{2}\NormalTok{]], }
+     \DataTypeTok{log=}\StringTok{'y'}\NormalTok{, }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{2}\NormalTok{, }\FloatTok{1.5}\NormalTok{), }
+     \DataTypeTok{xlab=}\StringTok{'Time (hr)'}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{'Pathogen load (fraction)'}\NormalTok{,}
+     \DataTypeTok{main=}\StringTok{'Resampling of Se growth curve'}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{30}\NormalTok{) \{}
+\NormalTok{  se_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(se_growth, KSe)}
+  \KeywordTok{points}\NormalTok{(se_growth_norm_inst[[}\DecValTok{1}\NormalTok{]], se_growth_norm_inst[[}\DecValTok{2}\NormalTok{]], }\DataTypeTok{col=}\NormalTok{i)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-46-3.pdf}
+
+Re-sample survival curve by bootstrapping.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{resample_surv_curve <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (ds_surv) \{}
+  \CommentTok{# MC bootstrap from dfs of survival curves}
+\NormalTok{  ## Get times}
+\NormalTok{  ts <-}\StringTok{ }\NormalTok{ds_surv[[}\DecValTok{1}\NormalTok{]][[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  n_pts <-}\StringTok{ }\KeywordTok{length}\NormalTok{(ts)}
+\NormalTok{  ## Arrange all data in matrix}
+\NormalTok{  a <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\DataTypeTok{data =} \OtherTok{NaN}\NormalTok{, }\DataTypeTok{ncol =}\NormalTok{ n_pts)  }\CommentTok{# Create pseudo-empty matrix}
+  \ControlFlowTok{for}\NormalTok{ (df }\ControlFlowTok{in}\NormalTok{ ds_surv) \{}
+\NormalTok{    a <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(a, df[[}\DecValTok{2}\NormalTok{]])  }\CommentTok{# append dataset}
+\NormalTok{  \}}
+\NormalTok{  a <-}\StringTok{ }\NormalTok{a[}\OperatorTok{-}\DecValTok{1}\NormalTok{,]  }\CommentTok{# remove NaN row}
+  
+\NormalTok{  ## Re-sample dataset}
+\NormalTok{  sampled <-}\StringTok{ }\KeywordTok{apply}\NormalTok{(a, }\DataTypeTok{MARGIN=}\DecValTok{2}\NormalTok{, }\DataTypeTok{FUN=}\NormalTok{sample, }\DataTypeTok{size=}\DecValTok{1}\NormalTok{)}
+  \CommentTok{# plot(ts, sampled, log="y")}
+\NormalTok{  ## Return instnace}
+  \KeywordTok{return}\NormalTok{(}\KeywordTok{list}\NormalTok{(ts, sampled))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Show resampled survival curves.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Resample Pa surv curves}
+\KeywordTok{plot}\NormalTok{(}\OtherTok{NULL}\NormalTok{, }
+     \DataTypeTok{log=}\StringTok{"y"}\NormalTok{, }
+     \DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{120}\NormalTok{), }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{2}\NormalTok{, }\FloatTok{1.2}\NormalTok{),}
+     \DataTypeTok{xlab=}\StringTok{"Time (hr)"}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{"Fraction of worms surviving"}\NormalTok{,}
+     \DataTypeTok{main=}\StringTok{"Pa resampled surv"}
+\NormalTok{     )}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{100}\NormalTok{) \{}
+\NormalTok{  ans <-}\StringTok{ }\KeywordTok{resample_surv_curve}\NormalTok{(pa_dfs)}
+\NormalTok{  ts <-}\StringTok{ }\NormalTok{ans[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  pts <-}\StringTok{ }\NormalTok{ans[[}\DecValTok{2}\NormalTok{]]}
+  \KeywordTok{points}\NormalTok{(ts, pts, }\DataTypeTok{col=}\NormalTok{i)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-48-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Resample Sm surv curves}
+\KeywordTok{plot}\NormalTok{(}\OtherTok{NULL}\NormalTok{, }
+     \DataTypeTok{log=}\StringTok{"y"}\NormalTok{, }
+     \DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{160}\NormalTok{), }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{2}\NormalTok{, }\FloatTok{1.2}\NormalTok{),}
+     \DataTypeTok{xlab=}\StringTok{"Time (hr)"}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{"Fraction of worms surviving"}\NormalTok{,}
+     \DataTypeTok{main=}\StringTok{"Sm resampled surv"}
+\NormalTok{     )}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{100}\NormalTok{) \{}
+\NormalTok{  ans <-}\StringTok{ }\KeywordTok{resample_surv_curve}\NormalTok{(sm_dfs)}
+\NormalTok{  ts <-}\StringTok{ }\NormalTok{ans[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  pts <-}\StringTok{ }\NormalTok{ans[[}\DecValTok{2}\NormalTok{]]}
+  \KeywordTok{points}\NormalTok{(ts, pts, }\DataTypeTok{col=}\NormalTok{i)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-48-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Resample Se surv curves}
+\KeywordTok{plot}\NormalTok{(}\OtherTok{NULL}\NormalTok{, }
+     \DataTypeTok{log=}\StringTok{"y"}\NormalTok{, }
+     \DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{180}\NormalTok{), }
+     \DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\OperatorTok{**-}\DecValTok{2}\NormalTok{, }\FloatTok{1.2}\NormalTok{),}
+     \DataTypeTok{xlab=}\StringTok{"Time (hr)"}\NormalTok{,}
+     \DataTypeTok{ylab=}\StringTok{"Fraction of worms surviving"}\NormalTok{,}
+     \DataTypeTok{main=}\StringTok{"Se resampled surv"}
+\NormalTok{     )}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{100}\NormalTok{) \{}
+\NormalTok{  ans <-}\StringTok{ }\KeywordTok{resample_surv_curve}\NormalTok{(se_dfs)}
+\NormalTok{  ts <-}\StringTok{ }\NormalTok{ans[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{  pts <-}\StringTok{ }\NormalTok{ans[[}\DecValTok{2}\NormalTok{]]}
+  \KeywordTok{points}\NormalTok{(ts, pts, }\DataTypeTok{col=}\NormalTok{i)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-48-3.pdf}
+
+Bootstrap and fit for parameter instance for \emph{Pa}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pa_find_par_instance <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ () \{}
+  \CommentTok{# Return parameter instance.}
+  
+\NormalTok{  pa_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(pa_growth, KPa)}
+\NormalTok{  pa_surv_inst <-}\StringTok{ }\KeywordTok{resample_surv_curve}\NormalTok{(pa_dfs)}
+  
+\NormalTok{  pa_minimize_me2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (pars) \{}
+    \CommentTok{# v2: works on resampled growth curve.}
+    \CommentTok{# Objective function. }
+    \CommentTok{# Take colonization rates and growth rate.}
+    \CommentTok{# Return total error between model and data-sets paX_growth_norm}
+    \CommentTok{# CAREFUL: in-coded data-sets.}
+\NormalTok{    logr <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{1}\NormalTok{]] }
+\NormalTok{    logc <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{2}\NormalTok{]] }
+\NormalTok{    logd <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{3}\NormalTok{]] }
+    
+\NormalTok{    err_growth <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logc, pa_growth_norm_inst)}
+\NormalTok{    err_surv <-}\StringTok{ }\KeywordTok{get_surv_model_error}\NormalTok{(logr, logc, logd, pa_surv_inst)}
+\NormalTok{    total_err <-}\StringTok{ }\NormalTok{err_growth }\OperatorTok{+}\StringTok{ }\NormalTok{err_surv}
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{as.double}\NormalTok{(total_err))}
+\NormalTok{  \}}
+  \CommentTok{# print(pa_surv_inst)}
+\NormalTok{  ans <-}\StringTok{ }\KeywordTok{optim}\NormalTok{(}\DataTypeTok{par=}\NormalTok{pa_ans}\OperatorTok{$}\NormalTok{par, }
+         \DataTypeTok{fn=}\NormalTok{pa_minimize_me2,}
+         \DataTypeTok{method =} \StringTok{"Nelder-Mead"}\NormalTok{)}
+  
+  
+  \CommentTok{# print(exp(ans$par))}
+  \KeywordTok{return}\NormalTok{(ans)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Bootstrap and fit for single parameter instance for \emph{Sm}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sm_find_par_instance <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ () \{}
+  \CommentTok{# Return parameter instance.}
+  
+\NormalTok{  sm_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(sm_growth, KSm)}
+\NormalTok{  sm_surv_inst <-}\StringTok{ }\KeywordTok{resample_surv_curve}\NormalTok{(sm_dfs)}
+  
+\NormalTok{  sm_minimize_me2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (pars) \{}
+    \CommentTok{# v2: works on resampled growth curve.}
+    \CommentTok{# Objective function. }
+    \CommentTok{# Take colonization rates and growth rate.}
+    \CommentTok{# Return total error between model and data-sets paX_growth_norm}
+    \CommentTok{# CAREFUL: in-coded data-sets.}
+\NormalTok{    logr <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{1}\NormalTok{]] }
+\NormalTok{    logc <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{2}\NormalTok{]] }
+\NormalTok{    logd <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{3}\NormalTok{]] }
+    
+\NormalTok{    err_growth <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logc, sm_growth_norm_inst)}
+\NormalTok{    err_surv <-}\StringTok{ }\KeywordTok{get_surv_model_error}\NormalTok{(logr, logc, logd, sm_surv_inst)}
+\NormalTok{    total_err <-}\StringTok{ }\NormalTok{err_growth }\OperatorTok{+}\StringTok{ }\NormalTok{err_surv}
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{as.double}\NormalTok{(total_err))}
+\NormalTok{  \}}
+  
+\NormalTok{  ans <-}\StringTok{ }\KeywordTok{optim}\NormalTok{(}\DataTypeTok{par=}\NormalTok{sm_ans}\OperatorTok{$}\NormalTok{par, }
+         \DataTypeTok{fn=}\NormalTok{sm_minimize_me2,}
+         \DataTypeTok{method =} \StringTok{"Nelder-Mead"}\NormalTok{)}
+  
+  \CommentTok{# print(exp(ans$par))}
+  \KeywordTok{return}\NormalTok{(ans)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Bootstrap and fit for single parameter instance for \emph{Se}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{se_find_par_instance <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ () \{}
+  \CommentTok{# Return parameter instance.}
+  
+\NormalTok{  se_growth_norm_inst <-}\StringTok{ }\KeywordTok{resample_norm_growth_curve}\NormalTok{(se_growth, KSe)}
+\NormalTok{  se_surv_inst <-}\StringTok{ }\KeywordTok{resample_surv_curve}\NormalTok{(se_dfs)}
+  
+\NormalTok{  se_minimize_me2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{ (pars) \{}
+    \CommentTok{# v2: works on resampled growth curve.}
+    \CommentTok{# Objective function. }
+    \CommentTok{# Take colonization rates and growth rate.}
+    \CommentTok{# Return total error between model and data-sets paX_growth_norm}
+    \CommentTok{# CAREFUL: in-coded data-sets.}
+\NormalTok{    logr <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{1}\NormalTok{]] }
+\NormalTok{    logc <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{2}\NormalTok{]] }
+\NormalTok{    logd <-}\StringTok{ }\NormalTok{pars[[}\DecValTok{3}\NormalTok{]] }
+    
+\NormalTok{    err_growth <-}\StringTok{ }\KeywordTok{get_growth_model_error}\NormalTok{(logr, logc, se_growth_norm_inst)}
+\NormalTok{    err_surv <-}\StringTok{ }\KeywordTok{get_surv_model_error}\NormalTok{(logr, logc, logd, se_surv_inst)}
+\NormalTok{    total_err <-}\StringTok{ }\NormalTok{err_growth }\OperatorTok{+}\StringTok{ }\NormalTok{err_surv}
+    \KeywordTok{return}\NormalTok{(}\KeywordTok{as.double}\NormalTok{(total_err))}
+\NormalTok{  \}}
+  
+\NormalTok{  ans <-}\StringTok{ }\KeywordTok{optim}\NormalTok{(}\DataTypeTok{par=}\NormalTok{se_ans}\OperatorTok{$}\NormalTok{par, }
+         \DataTypeTok{fn=}\NormalTok{se_minimize_me2,}
+         \DataTypeTok{method =} \StringTok{"Nelder-Mead"}\NormalTok{)}
+  
+  \CommentTok{# print(exp(ans$par))}
+  \KeywordTok{return}\NormalTok{(ans)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Bootstrap to obtain distributions of parameters for \emph{Pa}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pa_show_histograms <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{}
+\NormalTok{  ## Generate distributions}
+\NormalTok{  ds <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+\NormalTok{  cs <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+\NormalTok{  rs <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{500}\NormalTok{) \{}
+\NormalTok{    ans <-}\StringTok{ }\KeywordTok{pa_find_par_instance}\NormalTok{()}
+\NormalTok{    rs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(rs, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{1}\NormalTok{]]))}
+\NormalTok{    cs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(cs, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{2}\NormalTok{]]))}
+\NormalTok{    ds <-}\StringTok{ }\KeywordTok{c}\NormalTok{(ds, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{3}\NormalTok{]]))}
+\NormalTok{  \}}
+\NormalTok{  ## Compute s.e.m.}
+\NormalTok{  r_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(rs), }\DataTypeTok{digits =} \DecValTok{4}\NormalTok{)}
+\NormalTok{  c_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(cs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  d_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(ds), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  ## Compute median}
+\NormalTok{  r_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{median}\NormalTok{(rs), }\DataTypeTok{digits =} \DecValTok{4}\NormalTok{)}
+\NormalTok{  c_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{median}\NormalTok{(cs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  d_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{median}\NormalTok{(ds), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  ## Plot histograms}
+  \KeywordTok{hist}\NormalTok{(rs, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Pa growth rate. val:'}\NormalTok{, r_val, }\StringTok{"+/-"}\NormalTok{, r_sem))}
+  \KeywordTok{hist}\NormalTok{(cs, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Pa col. rate. val:'}\NormalTok{, c_val, }\StringTok{"+/-"}\NormalTok{, c_sem))}
+  \KeywordTok{hist}\NormalTok{(ds, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Pa lethality val:'}\NormalTok{, d_val, }\StringTok{"+/-"}\NormalTok{, d_sem))}
+\NormalTok{\}}
+\KeywordTok{pa_show_histograms}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-52-1.pdf}
+\includegraphics{source_files/figure-latex/unnamed-chunk-52-2.pdf}
+\includegraphics{source_files/figure-latex/unnamed-chunk-52-3.pdf}
+
+Bootstrap to obtain distributions of parameters for \emph{Sm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sm_show_histograms <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{}
+\NormalTok{  ## Generate distributions}
+\NormalTok{  ds <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+\NormalTok{  cs <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+\NormalTok{  rs <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{500}\NormalTok{) \{}
+\NormalTok{    ans <-}\StringTok{ }\KeywordTok{sm_find_par_instance}\NormalTok{()}
+\NormalTok{    rs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(rs, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{1}\NormalTok{]]))}
+\NormalTok{    cs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(cs, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{2}\NormalTok{]]))}
+\NormalTok{    ds <-}\StringTok{ }\KeywordTok{c}\NormalTok{(ds, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{3}\NormalTok{]]))}
+\NormalTok{  \}}
+\NormalTok{  ## Compute s.e.m.}
+\NormalTok{  r_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(rs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  c_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(cs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  d_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(ds), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  ## Compute median}
+\NormalTok{  r_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{median}\NormalTok{(rs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  c_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{median}\NormalTok{(cs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  d_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{median}\NormalTok{(ds), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  ## Plot histograms}
+  \KeywordTok{hist}\NormalTok{(rs, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Sm growth rate. val:'}\NormalTok{, r_val, }\StringTok{"+/-"}\NormalTok{, r_sem))}
+  \KeywordTok{hist}\NormalTok{(cs, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Sm col. rate. val:'}\NormalTok{, c_val, }\StringTok{"+/-"}\NormalTok{, c_sem))}
+  \KeywordTok{hist}\NormalTok{(ds, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Sm lethality val:'}\NormalTok{, d_val, }\StringTok{"+/-"}\NormalTok{, d_sem))}
+\NormalTok{\}}
+\KeywordTok{sm_show_histograms}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-53-1.pdf}
+\includegraphics{source_files/figure-latex/unnamed-chunk-53-2.pdf}
+\includegraphics{source_files/figure-latex/unnamed-chunk-53-3.pdf}
+
+Bootstrap to obtain distributions of parameters for \emph{Se}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{se_show_histograms <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{}
+\NormalTok{  ## Generate distributions}
+\NormalTok{  ds <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+\NormalTok{  cs <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+\NormalTok{  rs <-}\StringTok{ }\KeywordTok{vector}\NormalTok{()}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{500}\NormalTok{) \{}
+\NormalTok{    ans <-}\StringTok{ }\KeywordTok{se_find_par_instance}\NormalTok{()}
+\NormalTok{    rs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(rs, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{1}\NormalTok{]]))}
+\NormalTok{    cs <-}\StringTok{ }\KeywordTok{c}\NormalTok{(cs, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{2}\NormalTok{]]))}
+\NormalTok{    ds <-}\StringTok{ }\KeywordTok{c}\NormalTok{(ds, }\KeywordTok{exp}\NormalTok{(ans}\OperatorTok{$}\NormalTok{par[[}\DecValTok{3}\NormalTok{]]))}
+\NormalTok{  \}}
+\NormalTok{  ## Compute s.e.m.}
+\NormalTok{  r_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(rs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  c_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(cs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  d_sem <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{sd}\NormalTok{(ds), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  ## Compute means}
+\NormalTok{  r_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{median}\NormalTok{(rs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  c_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{median}\NormalTok{(cs), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  d_val <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{median}\NormalTok{(ds), }\DataTypeTok{digits =} \DecValTok{5}\NormalTok{)}
+\NormalTok{  ## Plot histograms}
+  \KeywordTok{hist}\NormalTok{(rs, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Se growth rate. val:'}\NormalTok{, r_val, }\StringTok{"+/-"}\NormalTok{, r_sem))}
+  \KeywordTok{hist}\NormalTok{(cs, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Se col. rate. val:'}\NormalTok{, c_val, }\StringTok{"+/-"}\NormalTok{, c_sem))}
+  \KeywordTok{hist}\NormalTok{(ds, }\DataTypeTok{main=}\KeywordTok{paste}\NormalTok{(}\StringTok{'Se lethality val:'}\NormalTok{, d_val, }\StringTok{"+/-"}\NormalTok{, d_sem))}
+\NormalTok{\}}
+\KeywordTok{se_show_histograms}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{source_files/figure-latex/unnamed-chunk-54-1.pdf}
+\includegraphics{source_files/figure-latex/unnamed-chunk-54-2.pdf}
+\includegraphics{source_files/figure-latex/unnamed-chunk-54-3.pdf}
+
+Rescale colonization rates by carrying capacities to be reported in
+paper. \emph{Sm}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{c}\NormalTok{(}\FloatTok{0.00128} \OperatorTok{*}\StringTok{ }\NormalTok{KSm, }\FloatTok{0.00058} \OperatorTok{*}\StringTok{ }\NormalTok{KSm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 140.8  63.8
+\end{verbatim}
+
+\emph{Pa}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{c}\NormalTok{(}\FloatTok{0.00042} \OperatorTok{*}\StringTok{ }\NormalTok{KPa, }\FloatTok{0.00026} \OperatorTok{*}\StringTok{ }\NormalTok{KPa)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 117.6  72.8
+\end{verbatim}
+
+\emph{Se}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{c}\NormalTok{(}\FloatTok{0.00005} \OperatorTok{*}\StringTok{ }\NormalTok{KSe, }\FloatTok{0.00001} \OperatorTok{*}\StringTok{ }\NormalTok{KSe)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 85 17
+\end{verbatim}
+
+
+\end{document}
